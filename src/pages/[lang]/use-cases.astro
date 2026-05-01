@@ -1,0 +1,177 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import type { Lang } from '../../i18n/ui';
+import { t, languages } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+
+const useCases = [
+  { icon: 'account_balance', titleKey: 'usecases.finance.title',  descKey: 'usecases.finance.desc' },
+  { icon: 'local_shipping',  titleKey: 'usecases.supply.title',   descKey: 'usecases.supply.desc' },
+  { icon: 'security',        titleKey: 'usecases.security.title', descKey: 'usecases.security.desc' },
+  { icon: 'shopping_cart',   titleKey: 'usecases.ecommerce.title', descKey: 'usecases.ecommerce.desc' },
+  { icon: 'health_and_safety', titleKey: 'usecases.healthcare.title', descKey: 'usecases.healthcare.desc' },
+  { icon: 'precision_manufacturing', titleKey: 'usecases.manufacturing.title', descKey: 'usecases.manufacturing.desc' },
+  { icon: 'account_balance_wallet', titleKey: 'usecases.govtech.title', descKey: 'usecases.govtech.desc' },
+  { icon: 'gavel', titleKey: 'usecases.legal.title', descKey: 'usecases.legal.desc' },
+];
+---
+
+<BaseLayout title={t(lang, 'nav.useCases')} lang={lang} description="DomainMesh — Real-world applications across industries.">
+
+  <!-- Page Hero -->
+  <section class="page-hero graphic-grid">
+    <div class="hero__deco-h" style="top: 100px; right: 0; width: 128px;"></div>
+    <div class="hero__deco-v" style="top: 100px; right: 128px; height: 160px;"></div>
+    <div class="container page-hero__inner page-hero__inner--center">
+      <div class="section-label" style="justify-content: center;">
+        <div class="section-label__line"></div>
+        <span class="section-label__text">{t(lang, 'usecases.label')}</span>
+      </div>
+      <h1 class="page-hero__title" style="text-align: center;">
+        {t(lang, 'usecases.title')}<br />
+        <span class="text-orange">{t(lang, 'usecases.titleAccent')}</span>
+      </h1>
+      <p class="page-hero__subtitle" style="text-align: center; margin-left: auto; margin-right: auto;">
+        {t(lang, 'usecases.subtitle')}
+      </p>
+    </div>
+  </section>
+
+  <!-- Use Cases Grid -->
+  <section class="section section--surface">
+    <div class="container">
+      <div class="usecase-grid">
+        {useCases.map((uc) => (
+          <div class="usecase-card">
+            <div class="usecase-card__header">
+              <div class="usecase-card__icon-wrap">
+                <span class="material-symbols-outlined">{uc.icon}</span>
+              </div>
+              <span class="material-symbols-outlined usecase-card__arrow">arrow_forward</span>
+            </div>
+            <h3 class="usecase-card__title">{t(lang, uc.titleKey)}</h3>
+            <p class="usecase-card__desc">{t(lang, uc.descKey)}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .page-hero {
+    position: relative;
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .page-hero__inner {
+    padding-top: 120px;
+    padding-bottom: 80px;
+  }
+
+  .page-hero__inner--center {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 52rem;
+  }
+
+  .page-hero__title {
+    font-family: var(--font-heading);
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    line-height: 1;
+    text-transform: uppercase;
+    margin: 16px 0 24px;
+  }
+
+  .page-hero__subtitle {
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    max-width: 38rem;
+  }
+
+  .usecase-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+
+  .usecase-card {
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-border);
+    padding: 40px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: border-color var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .usecase-card:hover {
+    border-color: rgba(255, 107, 0, 0.4);
+    box-shadow: 0 0 30px rgba(255, 107, 0, 0.08);
+  }
+
+  .usecase-card__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .usecase-card__icon-wrap {
+    width: 56px;
+    height: 56px;
+    background-color: rgba(255, 107, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-orange);
+    transition: transform var(--transition-base);
+  }
+
+  .usecase-card:hover .usecase-card__icon-wrap {
+    transform: scale(1.1);
+  }
+
+  .usecase-card__icon-wrap .material-symbols-outlined {
+    font-size: 1.75rem;
+  }
+
+  .usecase-card__arrow {
+    color: rgba(255, 255, 255, 0.15);
+    transition: color var(--transition-base);
+  }
+
+  .usecase-card:hover .usecase-card__arrow {
+    color: var(--color-orange);
+  }
+
+  .usecase-card__title {
+    font-family: var(--font-heading);
+    font-size: 1.375rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .usecase-card__desc {
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .usecase-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

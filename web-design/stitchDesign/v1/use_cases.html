@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Industry Use Cases Library</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=Inter:wght@400;500;700;900&amp;family=JetBrains+Mono&amp;family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,700&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#FF6B00",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#050A30",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#050A30",
+                        "surface-hover-light": "#eaeaef",
+                        "surface-hover-dark": "#0a1045",
+                        "border-light": "#d1d1db",
+                        "border-dark": "#1a2466",
+                        "text-primary-light": "#111118",
+                        "text-primary-dark": "#ffffff",
+                        "text-secondary-light": "#66667a",
+                        "text-secondary-dark": "#a0a4c0",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Roboto Flex", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                        "archivo": ["Archivo Black", "sans-serif"],
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-[#050A30] font-body text-text-primary-dark min-h-screen flex flex-col">
+    <header
+        class="flex items-center justify-between whitespace-nowrap border-b border-border-dark px-10 py-4 bg-[#050A30] sticky top-0 z-50">
+        <div class="flex items-center gap-8">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 flex items-center justify-center bg-primary rounded shadow-md">
+                    <span class="text-white font-mono font-bold text-sm tracking-tighter">DM</span>
+                </div>
+                <h2 class="text-white text-xl font-black leading-tight font-display tracking-tight">DomainMesh</h2>
+            </div>
+        </div>
+        <div class="flex flex-1 justify-end gap-8">
+            <div class="hidden lg:flex items-center gap-8">
+                <a class="text-text-secondary-dark hover:text-primary transition-colors text-sm font-bold leading-normal font-display"
+                    href="#">Modeller Engine</a>
+                <a class="text-text-secondary-dark hover:text-primary transition-colors text-sm font-bold leading-normal font-display"
+                    href="#">Industry Use Cases</a>
+                <a class="text-text-secondary-dark hover:text-primary transition-colors text-sm font-bold leading-normal font-display"
+                    href="#">Documentation</a>
+            </div>
+            <button
+                class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal font-display shadow-lg shadow-primary/20">
+                <span class="truncate">Get Started</span>
+            </button>
+        </div>
+    </header>
+    <div class="flex flex-1 overflow-hidden">
+        <main class="flex-1 overflow-y-auto">
+            <div class="max-w-6xl mx-auto px-6 py-12 lg:px-12">
+                <div class="mb-16 text-center">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-archivo text-primary mb-6">Real-World Applications
+                    </h1>
+                    <p class="text-xl text-text-secondary-dark max-w-3xl mx-auto">Explore how knowledge graphs power
+                        next-generation solutions across industries.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div
+                        class="group flex flex-col justify-between gap-6 rounded-2xl bg-[#0a1045] p-8 border border-border-dark hover:border-primary/50 hover:shadow-[0_0_30px_rgba(255,107,0,0.15)] transition-all">
+                        <div class="flex items-start justify-between">
+                            <div
+                                class="bg-primary/20 p-4 rounded-xl text-primary group-hover:scale-110 transition-transform">
+                                <span class="material-symbols-outlined text-4xl">account_balance</span>
+                            </div>
+                            <span
+                                class="material-symbols-outlined text-text-secondary-dark/50 group-hover:text-primary transition-colors">arrow_forward</span>
+                        </div>
+                        <div>
+                            <h3 class="text-white text-2xl font-bold font-display mb-3">Finance</h3>
+                            <p class="text-text-secondary-dark text-base leading-relaxed">Fraud detection, risk
+                                assessment, and regulatory compliance through interconnected financial entities and
+                                transactions.</p>
+                        </div>
+                    </div>
+                    <div
+                        class="group flex flex-col justify-between gap-6 rounded-2xl bg-[#0a1045] p-8 border border-border-dark hover:border-primary/50 hover:shadow-[0_0_30px_rgba(255,107,0,0.15)] transition-all">
+                        <div class="flex items-start justify-between">
+                            <div
+                                class="bg-primary/20 p-4 rounded-xl text-primary group-hover:scale-110 transition-transform">
+                                <span class="material-symbols-outlined text-4xl">local_shipping</span>
+                            </div>
+                            <span
+                                class="material-symbols-outlined text-text-secondary-dark/50 group-hover:text-primary transition-colors">arrow_forward</span>
+                        </div>
+                        <div>
+                            <h3 class="text-white text-2xl font-bold font-display mb-3">Supply Chain</h3>
+                            <p class="text-text-secondary-dark text-base leading-relaxed">End-to-end visibility,
+                                bottleneck identification, and predictive maintenance across global supplier networks.
+                            </p>
+                        </div>
+                    </div>
+                    <div
+                        class="group flex flex-col justify-between gap-6 rounded-2xl bg-[#0a1045] p-8 border border-border-dark hover:border-primary/50 hover:shadow-[0_0_30px_rgba(255,107,0,0.15)] transition-all">
+                        <div class="flex items-start justify-between">
+                            <div
+                                class="bg-primary/20 p-4 rounded-xl text-primary group-hover:scale-110 transition-transform">
+                                <span class="material-symbols-outlined text-4xl">security</span>
+                            </div>
+                            <span
+                                class="material-symbols-outlined text-text-secondary-dark/50 group-hover:text-primary transition-colors">arrow_forward</span>
+                        </div>
+                        <div>
+                            <h3 class="text-white text-2xl font-bold font-display mb-3">Cybersecurity</h3>
+                            <p class="text-text-secondary-dark text-base leading-relaxed">Threat intelligence,
+                                vulnerability mapping, and attack surface management using relational graph structures.
+                            </p>
+                        </div>
+                    </div>
+                    <div
+                        class="group flex flex-col justify-between gap-6 rounded-2xl bg-[#0a1045] p-8 border border-border-dark hover:border-primary/50 hover:shadow-[0_0_30px_rgba(255,107,0,0.15)] transition-all">
+                        <div class="flex items-start justify-between">
+                            <div
+                                class="bg-primary/20 p-4 rounded-xl text-primary group-hover:scale-110 transition-transform">
+                                <span class="material-symbols-outlined text-4xl">shopping_cart</span>
+                            </div>
+                            <span
+                                class="material-symbols-outlined text-text-secondary-dark/50 group-hover:text-primary transition-colors">arrow_forward</span>
+                        </div>
+                        <div>
+                            <h3 class="text-white text-2xl font-bold font-display mb-3">E-commerce</h3>
+                            <p class="text-text-secondary-dark text-base leading-relaxed">Personalized recommendations,
+                                inventory optimization, and dynamic pricing models based on complex user behavior.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

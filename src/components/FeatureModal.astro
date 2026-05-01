@@ -1,0 +1,246 @@
+<!-- Feature Detail Modal — injected once per page, opened by FeatureCard clicks -->
+<div class="modal-overlay" id="featureModal" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="modal__close" id="modalClose" aria-label="Close">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+    <div class="modal__header">
+      <div class="modal__icon">
+        <span class="material-symbols-outlined" id="modalIcon"></span>
+      </div>
+      <h3 class="modal__title" id="modalTitle"></h3>
+    </div>
+    <div class="modal__body" id="modalBody"></div>
+  </div>
+</div>
+
+<style>
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(5, 10, 48, 0.85);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .modal-overlay[aria-hidden="false"] {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .modal {
+    position: relative;
+    width: 90%;
+    max-width: 640px;
+    max-height: 80vh;
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-orange);
+    padding: 40px;
+    overflow-y: auto;
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.3s ease;
+  }
+
+  .modal-overlay[aria-hidden="false"] .modal {
+    transform: translateY(0) scale(1);
+  }
+
+  .modal__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: 2px solid var(--color-border);
+    color: var(--color-text-secondary);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: border-color var(--transition-fast), color var(--transition-fast);
+  }
+
+  .modal__close:hover {
+    border-color: var(--color-orange);
+    color: var(--color-orange);
+  }
+
+  .modal__header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-right: 40px;
+  }
+
+  .modal__icon {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    background-color: var(--color-midnight);
+    border: 2px solid var(--color-orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal__icon .material-symbols-outlined {
+    font-size: 1.5rem;
+    color: var(--color-orange);
+  }
+
+  .modal__title {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-white);
+  }
+
+  .modal__body {
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.8;
+  }
+
+  .modal__body p {
+    margin-bottom: 16px;
+  }
+
+  .modal__body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .modal__body strong {
+    color: var(--color-white);
+    font-weight: 600;
+  }
+
+  .modal__body code {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    background-color: var(--color-midnight);
+    border: 1px solid var(--color-border);
+    padding: 2px 6px;
+    color: var(--color-orange);
+  }
+
+  .modal__body ul {
+    margin: 12px 0 16px;
+    padding-left: 20px;
+  }
+
+  .modal__body li {
+    margin-bottom: 6px;
+    color: var(--color-text-secondary);
+  }
+
+  .modal__body li::marker {
+    color: var(--color-orange);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const overlay = document.getElementById('featureModal');
+    const closeBtn = document.getElementById('modalClose');
+    const modalIcon = document.getElementById('modalIcon');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+
+    if (!overlay || !closeBtn || !modalIcon || !modalTitle || !modalBody) return;
+
+    // Open modal on feature card click
+    document.querySelectorAll('.feature-card[data-detail]').forEach(card => {
+      card.addEventListener('click', () => {
+        const detail = card.getAttribute('data-detail');
+        const title = card.getAttribute('data-title');
+        const icon = card.getAttribute('data-icon');
+
+        if (!detail) return;
+
+        modalIcon.textContent = icon || '';
+        modalTitle.textContent = title || '';
+
+        // Parse the detail text into HTML
+        // The text uses \n for newlines and • for bullet points
+        const raw = detail.replace(/\\n/g, '\n');
+        const paragraphs = raw.split('\n\n').filter(p => p.trim());
+        let html = '';
+
+        paragraphs.forEach(para => {
+          const lines = para.split('\n').filter(l => l.trim());
+          const bulletLines = lines.filter(l => l.trim().startsWith('•'));
+
+          if (bulletLines.length > 0) {
+            // This paragraph contains bullets — may have a heading line before them
+            const nonBulletLines = [];
+            let inBullets = false;
+            let bulletHTML = '';
+
+            lines.forEach(line => {
+              const trimmed = line.trim();
+              if (trimmed.startsWith('•')) {
+                if (!inBullets) {
+                  inBullets = true;
+                  bulletHTML = '<ul>';
+                }
+                bulletHTML += `<li>${trimmed.replace(/^•\s*/, '')}</li>`;
+              } else {
+                if (inBullets) {
+                  bulletHTML += '</ul>';
+                  inBullets = false;
+                  html += bulletHTML;
+                  bulletHTML = '';
+                }
+                html += `<p>${trimmed}</p>`;
+              }
+            });
+            if (inBullets) {
+              bulletHTML += '</ul>';
+              html += bulletHTML;
+            }
+          } else {
+            html += `<p>${lines.join(' ')}</p>`;
+          }
+        });
+
+        modalBody.innerHTML = html;
+
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      });
+
+      // Keyboard support
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.click();
+        }
+      });
+    });
+
+    // Close modal
+    function closeModal() {
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.getAttribute('aria-hidden') === 'false') {
+        closeModal();
+      }
+    });
+  });
+</script>

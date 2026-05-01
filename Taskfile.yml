@@ -1,0 +1,110 @@
+version: '3'
+
+tasks:
+  default:
+    cmds:
+      - task --list
+    silent: true
+
+  # ------------------------------------------------------------------------
+  # Development & Build (Astro)
+  # ------------------------------------------------------------------------
+  install:
+    desc: Install NPM dependencies
+    cmds:
+      - npm install
+
+  devserver:
+    desc: Start local dev server (with hot reload in dev environment)
+    env:
+      PUBLIC_ENVTYPE: dev
+    cmds:
+      - echo 'your env is:' $PUBLIC_ENVTYPE
+      - npx astro dev --port 4321
+
+  # ------------------------------------------------------------------------
+  # Build
+  # ------------------------------------------------------------------------
+
+  build-dev:
+    desc: Build the site as DEV (shows environment banner)
+    env:
+      PUBLIC_ENVTYPE: dev
+    cmds:
+      - echo 'your env is:' $PUBLIC_ENVTYPE
+      - npx astro build
+
+  build-prod:
+    desc: Build the site as PROD (no environment banner)
+    env:
+      PUBLIC_ENVTYPE: prod
+    cmds:
+      - echo 'your env is:' $PUBLIC_ENVTYPE
+      - npx astro build
+
+  preview:
+    desc: Preview the production build locally
+    cmds:
+      - npx astro preview --port 4322
+
+  clean:
+    desc: Remove build artifacts and caches
+    cmds:
+      - rm -rf dist .astro node_modules/.vite
+
+  check:
+    desc: Run Astro's built-in diagnostics
+    cmds:
+      - npx astro check
+
+  lint:
+    desc: Check for TypeScript errors
+    cmds:
+      - npx tsc --noEmit
+
+
+  # ------------------------------------------------------------------------
+  # API / Backend (Pages Functions)
+  # ------------------------------------------------------------------------
+  api-dev:
+    desc: Run Pages Functions locally with KV emulation (reads .env)
+    cmds:
+      - cp .env .dev.vars
+      - npx wrangler pages dev ./dist --kv CONTACT_KV
+
+  # ------------------------------------------------------------------------
+  # Git Promotion
+  # ------------------------------------------------------------------------
+  promote-to-stage:
+    desc: Merge dev into stage via squash merge (triggers Release Please)
+    cmds:
+      - git checkout stage
+      - git pull origin stage
+      - git merge --squash dev
+      - "git commit -m 'feat(stage): merge dev'"
+      - git push origin stage
+      - git checkout dev
+      - "git merge stage -m 'chore(dev): sync release-please changes from stage'"
+      - git push origin dev
+      - echo ""
+      - echo "✅ Stage promoted and pushed. dev synced with stage. Back on dev."
+    preconditions:
+      - sh: git diff --quiet
+        msg: "Working tree must be clean. Commit or stash changes first."
+
+  promote-to-prod:
+    desc: Fast-forward merge stage into main (production deployment)
+    cmds:
+      - echo "⚠️  This will fast-forward main to match stage."
+      - echo "    NEVER use a GitHub PR for this — it breaks linear history."
+      - echo ""
+      - git checkout main
+      - git pull origin main
+      - git merge --ff-only stage
+      - git push origin main
+      - git checkout dev
+      - echo ""
+      - echo "✅ Production deployed. main is now at $(git rev-parse --short main)"
+    preconditions:
+      - sh: git diff --quiet
+        msg: "Working tree must be clean. Commit or stash changes first."

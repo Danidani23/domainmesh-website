@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import type { Lang } from '../../i18n/ui';
+import { t, languages } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+---
+
+<BaseLayout title="Contact" lang={lang} description="DomainMesh — Get in touch with us.">
+  <!-- Auto-open the contact modal when this page loads -->
+  <div data-auto-open-contact></div>
+</BaseLayout>

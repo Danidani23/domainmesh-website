@@ -1,0 +1,185 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FeatureCard from '../../components/FeatureCard.astro';
+import FeatureModal from '../../components/FeatureModal.astro';
+import type { Lang } from '../../i18n/ui';
+import { t, languages } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+
+const features = [
+  { icon: 'schema',       titleKey: 'product.graphEngine.title',      descKey: 'product.graphEngine.desc',      detailKey: 'product.graphEngine.detail' },
+  { icon: 'api',          titleKey: 'product.apiIntegration.title',    descKey: 'product.apiIntegration.desc',    detailKey: 'product.apiIntegration.detail' },
+  { icon: 'account_tree', titleKey: 'product.dataOrchestration.title', descKey: 'product.dataOrchestration.desc', detailKey: 'product.dataOrchestration.detail' },
+  { icon: 'update',       titleKey: 'product.schemaEvolution.title',   descKey: 'product.schemaEvolution.desc',   detailKey: 'product.schemaEvolution.detail' },
+  { icon: 'admin_panel_settings', titleKey: 'product.accessControl.title', descKey: 'product.accessControl.desc', detailKey: 'product.accessControl.detail' },
+  { icon: 'monitoring',   titleKey: 'product.monitoring.title',        descKey: 'product.monitoring.desc',        detailKey: 'product.monitoring.detail' },
+];
+---
+
+<BaseLayout title={t(lang, 'nav.product')} lang={lang} description="DomainMesh — The engine of knowledge. High-level features and value proposition.">
+
+  <!-- Page Hero -->
+  <section class="page-hero graphic-grid">
+    <div class="hero__deco-h" style="top: 120px; left: 0; width: 96px;"></div>
+    <div class="hero__deco-v" style="top: 120px; left: 96px; height: 192px;"></div>
+    <div class="container page-hero__inner">
+      <div class="section-label">
+        <div class="section-label__line"></div>
+        <span class="section-label__text">{t(lang, 'product.label')}</span>
+      </div>
+      <h1 class="page-hero__title">
+        {t(lang, 'product.title')}<br />
+        <span class="text-orange">{t(lang, 'product.titleAccent')}</span>
+      </h1>
+      <p class="page-hero__subtitle">{t(lang, 'product.subtitle')}</p>
+      <a href="#features" class="btn btn-primary">
+        {t(lang, 'product.cta')}
+        <span class="material-symbols-outlined" style="font-size: 1.25rem;">arrow_forward</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="section section--surface" id="features">
+    <div class="container">
+      <div class="section__header">
+        <div>
+          <div class="section-label">
+            <div class="section-label__line"></div>
+            <span class="section-label__text">{t(lang, 'product.features.title')}</span>
+          </div>
+          <h2>{t(lang, 'product.features.title')}</h2>
+        </div>
+        <p class="section__header-desc">{t(lang, 'product.features.desc')}</p>
+      </div>
+      <div class="feature-grid">
+        {features.map((f) => (
+          <FeatureCard
+            icon={f.icon}
+            title={t(lang, f.titleKey)}
+            description={t(lang, f.descKey)}
+            detail={t(lang, f.detailKey)}
+            exploreText={t(lang, 'explore')}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section">
+    <div class="container">
+      <div class="product-cta">
+        <span class="material-symbols-outlined product-cta__icon">rocket_launch</span>
+        <h2 class="product-cta__title">{t(lang, 'product.readyCta.title')}</h2>
+        <p class="product-cta__desc">{t(lang, 'product.readyCta.desc')}</p>
+        <a href="#" class="btn btn-primary">
+          {t(lang, 'product.readyCta.button')}
+          <span class="material-symbols-outlined" style="font-size: 1.25rem;">arrow_forward</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <FeatureModal />
+
+</BaseLayout>
+
+<style>
+  .page-hero {
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .page-hero__inner {
+    padding-top: 120px;
+    padding-bottom: 80px;
+    max-width: 48rem;
+  }
+
+  .page-hero__title {
+    font-family: var(--font-heading);
+    font-size: clamp(3rem, 6vw, 5rem);
+    line-height: 1;
+    text-transform: uppercase;
+    margin: 16px 0 24px;
+  }
+
+  .page-hero__subtitle {
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    max-width: 38rem;
+    margin-bottom: 32px;
+  }
+
+  .section__header h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 3rem);
+    text-transform: uppercase;
+    line-height: 1.1;
+  }
+
+  .product-cta {
+    text-align: center;
+    background: linear-gradient(135deg, var(--color-surface), rgba(255, 107, 0, 0.1));
+    border: 2px solid var(--color-border);
+    padding: 80px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-cta__icon {
+    font-size: 3.5rem;
+    color: var(--color-orange);
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .product-cta__title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    text-transform: uppercase;
+    max-width: 42rem;
+    margin: 0 auto 16px;
+  }
+
+  .product-cta__desc {
+    color: var(--color-text-secondary);
+    font-size: 1.125rem;
+    max-width: 36rem;
+    margin: 0 auto 32px;
+    line-height: 1.6;
+  }
+
+  .section__header-desc {
+    max-width: 28rem;
+    border-left: 2px solid rgba(255, 255, 255, 0.2);
+    padding-left: 16px;
+  }
+
+  .section__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 32px;
+    margin-bottom: 64px;
+  }
+
+  @media (max-width: 768px) {
+    .section__header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

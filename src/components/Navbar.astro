@@ -1,0 +1,275 @@
+---
+import LanguageSelector from './LanguageSelector.astro';
+import type { Lang } from '../i18n/ui';
+import { t, getLocalizedPath } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const navLinks = [
+  { key: 'nav.home', path: '/' },
+  { key: 'nav.product', path: '/product' },
+  { key: 'nav.technology', path: '/technology' },
+  { key: 'nav.useCases', path: '/use-cases' },
+  { key: 'nav.about', path: '/about' },
+];
+
+// Determine active path
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="navbar" id="navbar">
+  <div class="navbar__inner container">
+    <a href={getLocalizedPath(lang, '/')} class="navbar__logo">
+      <div class="navbar__logo-icon">DM</div>
+      <span class="navbar__logo-text">domainmesh</span>
+    </a>
+
+    <div class="navbar__links" id="navLinks">
+      {navLinks.map((link) => {
+        const href = getLocalizedPath(lang, link.path);
+        const isActive = currentPath === href || currentPath === href + '/';
+        return (
+          <a
+            href={href}
+            class:list={['nav-link', { 'nav-link--active': isActive }]}
+          >
+            {t(lang, link.key)}
+          </a>
+        );
+      })}
+    </div>
+
+    <div class="navbar__right">
+      <button data-contact-open class="navbar__contact-btn">
+        {t(lang, 'footer.contact')}
+      </button>
+      <LanguageSelector lang={lang} />
+      <button
+        class="navbar__hamburger"
+        id="hamburgerBtn"
+        aria-label="Toggle menu"
+      >
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="navbar__mobile-menu" id="mobileMenu">
+    {navLinks.map((link) => {
+      const href = getLocalizedPath(lang, link.path);
+      return (
+        <a href={href} class="navbar__mobile-link">
+          {t(lang, link.key)}
+        </a>
+      );
+    })}
+    <button data-contact-open class="navbar__mobile-contact">
+      {t(lang, 'footer.contact')}
+      <span class="material-symbols-outlined" style="font-size: 1.25rem;">arrow_forward</span>
+    </button>
+    <div class="navbar__mobile-lang">
+      <LanguageSelector lang={lang} />
+    </div>
+  </div>
+</nav>
+
+<style>
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background-color: rgba(5, 10, 48, 0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .navbar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--nav-height);
+  }
+
+  .navbar__logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .navbar__logo-icon {
+    width: 32px;
+    height: 32px;
+    background-color: var(--color-orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-size: 0.875rem;
+    color: var(--color-white);
+  }
+
+  .navbar__logo-text {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .navbar__links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .nav-link {
+    position: relative;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-secondary);
+    transition: color var(--transition-fast);
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background-color: var(--color-orange);
+    transition: width var(--transition-normal);
+  }
+
+  .nav-link:hover,
+  .nav-link--active {
+    color: var(--color-white);
+  }
+
+  .nav-link:hover::after,
+  .nav-link--active::after {
+    width: 100%;
+  }
+
+  .navbar__right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .navbar__contact-btn {
+    background: none;
+    border: 1px solid var(--color-orange);
+    color: var(--color-orange);
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 6px 16px;
+    cursor: pointer;
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+  }
+
+  .navbar__contact-btn:hover {
+    background-color: var(--color-orange);
+    color: var(--color-white);
+  }
+
+  .navbar__hamburger {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--color-white);
+    cursor: pointer;
+  }
+
+  .navbar__hamburger .material-symbols-outlined {
+    font-size: 1.75rem;
+  }
+
+  .navbar__mobile-menu {
+    display: none;
+    flex-direction: column;
+    padding: 16px var(--px-page);
+    background-color: var(--color-midnight);
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  .navbar__mobile-menu.is-open {
+    display: flex;
+  }
+
+  .navbar__mobile-link {
+    padding: 12px 0;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--color-border);
+    transition: color var(--transition-fast);
+  }
+
+  .navbar__mobile-link:hover {
+    color: var(--color-orange);
+  }
+
+  .navbar__mobile-contact {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 0;
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-orange);
+    font-family: var(--font-heading);
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+  }
+
+  .navbar__mobile-lang {
+    padding-top: 16px;
+  }
+
+  @media (max-width: 768px) {
+    .navbar__links {
+      display: none;
+    }
+
+    .navbar__contact-btn {
+      display: none;
+    }
+
+    .navbar__hamburger {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  hamburgerBtn?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('is-open');
+    const icon = hamburgerBtn.querySelector('.material-symbols-outlined');
+    if (icon) {
+      icon.textContent = mobileMenu?.classList.contains('is-open')
+        ? 'close'
+        : 'menu';
+    }
+  });
+</script>

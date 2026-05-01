@@ -1,0 +1,145 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import type { Lang } from '../../i18n/ui';
+import { t, languages } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+---
+
+<BaseLayout title={t(lang, 'imprint.title')} lang={lang} description="Legal information about DomainMesh">
+  <section class="legal-hero">
+    <div class="container">
+      <h1 class="legal-hero__title">{t(lang, 'imprint.title')}</h1>
+    </div>
+  </section>
+
+  <section class="legal-content">
+    <div class="container">
+      <div class="legal-card">
+        <h2>{t(lang, 'imprint.company.title')}</h2>
+        <div class="legal-info">
+          <p class="company-name">DomainMesh</p>
+          <p>Daniel Molnár</p>
+          <p>Lindenhof 3</p>
+          <p>8604 Volketswil</p>
+          <p>Switzerland</p>
+        </div>
+      </div>
+
+      <div class="legal-card">
+        <h2>{t(lang, 'imprint.contact.title')}</h2>
+        <div class="legal-info">
+          <p><a href="mailto:hello@domainmesh.io" class="legal-link">hello@domainmesh.io</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-hero {
+    padding: 120px 0 60px;
+    border-bottom: 2px solid var(--color-orange);
+  }
+
+  .legal-hero__title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 3rem);
+    text-transform: uppercase;
+    color: var(--color-white);
+  }
+
+  .legal-content {
+    padding: 64px 0 96px;
+  }
+
+  .legal-content .container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    max-width: 800px;
+  }
+
+  .legal-card {
+    border: 2px solid var(--color-border);
+    padding: 32px;
+  }
+
+  .legal-card h2 {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-orange);
+    margin-bottom: 20px;
+  }
+
+  .legal-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .company-name {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    color: var(--color-white);
+    margin-bottom: 4px;
+  }
+
+  .legal-row {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+  }
+
+  .legal-label {
+    min-width: 120px;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .legal-row span:last-child {
+    color: var(--color-white);
+  }
+
+  .legal-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-orange);
+    font-weight: 500;
+    transition: opacity var(--transition-fast);
+  }
+
+  .legal-link:hover {
+    opacity: 0.8;
+  }
+
+  .legal-link .material-symbols-outlined {
+    font-size: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .legal-row {
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .legal-label {
+      min-width: unset;
+    }
+  }
+</style>

@@ -1,0 +1,30 @@
+name: Release Please
+
+on:
+  push:
+    branches:
+      - stage
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          # Automatically parses conventional commits since the last release, maps them to SemVer (feat -> minor, fix -> patch),
+          # bumps package.json version, and generates a Changelog PR. When merged, tags the repository.
+          release-type: node
+          target-branch: stage
+
+      - name: Auto-merge Release Please PR
+        if: steps.release.outputs.pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUMBER=$(echo '${{ steps.release.outputs.pr }}' | jq -r '.number')
+          gh pr merge "$PR_NUMBER" --squash --auto --repo "${{ github.repository }}"

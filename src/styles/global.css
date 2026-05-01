@@ -1,0 +1,404 @@
+/* ============================================================
+   Domain Modeller — Global Design System
+   Source of truth: docs/design-tokens.md
+   Canonical design: docs/stitchDesign/v1/home.html
+   ============================================================ */
+
+/* ---------- CSS Custom Properties ---------- */
+:root {
+  /* Colors */
+  --color-midnight: #050A30;
+  --color-surface: #0A114A;
+  --color-surface-hover: #121A5D;
+  --color-orange: #FF6B00;
+  --color-orange-hover: #e66000;
+  --color-white: #FFFFFF;
+  --color-text-secondary: #A0A5CA;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-border-hover: #FF6B00;
+  --color-orange-glow: rgba(255, 107, 0, 0.1);
+  --color-orange-shadow: rgba(255, 107, 0, 0.15);
+
+  /* Typography */
+  --font-heading: 'Archivo Black', sans-serif;
+  --font-body: 'Roboto Flex', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Layout */
+  --max-width: 1280px;
+  --nav-height: 80px;
+  --section-py: 96px;
+  --card-padding: 32px;
+  --gap-cards: 24px;
+  --px-page: 24px;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ---------- Base ---------- */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-midnight);
+  color: var(--color-white);
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+main {
+  margin-top: var(--nav-height);
+  flex: 1;
+}
+
+/* ---------- Typography ---------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: clamp(3rem, 8vw, 6rem);
+}
+
+h2 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
+h3 {
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+}
+
+p {
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ---------- Utility Classes ---------- */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--px-page);
+}
+
+.text-orange {
+  color: var(--color-orange);
+}
+
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-white {
+  color: var(--color-white);
+}
+
+.bg-midnight {
+  background-color: var(--color-midnight);
+}
+
+.bg-surface {
+  background-color: var(--color-surface);
+}
+
+/* ---------- Graphic Grid Background ---------- */
+.graphic-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 107, 0, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 107, 0, 0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ---------- Section Label ---------- */
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.section-label__dot {
+  width: 12px;
+  height: 12px;
+  background-color: var(--color-orange);
+}
+
+.section-label__line {
+  width: 48px;
+  height: 4px;
+  background-color: var(--color-orange);
+}
+
+.section-label__text {
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  color: var(--color-orange);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  padding: 16px 32px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  letter-spacing: 0.05em;
+}
+
+.btn-primary {
+  background-color: var(--color-orange);
+  color: var(--color-white);
+  border-color: var(--color-orange);
+}
+
+.btn-primary:hover {
+  background-color: transparent;
+  color: var(--color-orange);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-white);
+  border-color: var(--color-white);
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-orange);
+  color: var(--color-orange);
+}
+
+/* ---------- Feature Cards ---------- */
+.feature-card {
+  background-color: var(--color-midnight);
+  border: 2px solid var(--color-border);
+  padding: var(--card-padding);
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-normal);
+  cursor: pointer;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background-color: var(--color-orange);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform var(--transition-normal);
+}
+
+.feature-card:hover {
+  border-color: var(--color-orange);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px var(--color-orange-glow);
+}
+
+.feature-card:hover::before {
+  transform: scaleY(1);
+}
+
+.feature-card__icon {
+  width: 56px;
+  height: 56px;
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  transition: border-color var(--transition-normal), color var(--transition-normal);
+}
+
+.feature-card:hover .feature-card__icon {
+  border-color: var(--color-orange);
+}
+
+.feature-card__icon .material-symbols-outlined {
+  font-size: 1.75rem;
+  color: var(--color-white);
+  transition: color var(--transition-normal);
+}
+
+.feature-card:hover .feature-card__icon .material-symbols-outlined {
+  color: var(--color-orange);
+}
+
+.feature-card__title {
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
+}
+
+.feature-card__desc {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+
+.feature-card__link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  color: var(--color-orange);
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity var(--transition-normal), transform var(--transition-normal);
+}
+
+.feature-card:hover .feature-card__link {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ---------- Feature Grid ---------- */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap-cards);
+}
+
+@media (max-width: 1024px) {
+  .feature-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Section ---------- */
+.section {
+  padding: var(--section-py) 0;
+}
+
+.section--surface {
+  background-color: var(--color-surface);
+  border-top: 4px solid var(--color-border);
+  border-bottom: 4px solid var(--color-border);
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  min-height: calc(100vh - var(--nav-height));
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 10;
+}
+
+.hero__title {
+  line-height: 0.9;
+  margin-bottom: 32px;
+}
+
+.hero__title--outline {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-orange);
+}
+
+.hero__body {
+  font-size: 1.25rem;
+  max-width: 28rem;
+  padding-left: 24px;
+  border-left: 4px solid var(--color-orange);
+  margin-bottom: 40px;
+}
+
+.hero__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* Hero decorative lines */
+.hero__deco-h {
+  position: absolute;
+  height: 1px;
+  background-color: var(--color-orange);
+  opacity: 0.5;
+}
+
+.hero__deco-v {
+  position: absolute;
+  width: 1px;
+  background-color: var(--color-orange);
+  opacity: 0.5;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  :root {
+    --section-py: 64px;
+    --card-padding: 24px;
+    --px-page: 16px;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+  }
+
+  .hero {
+    min-height: auto;
+    padding: 64px 0;
+  }
+
+  .hero__body {
+    font-size: 1rem;
+  }
+}

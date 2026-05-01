@@ -1,0 +1,358 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import type { Lang } from '../../i18n/ui';
+import { t, languages } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+
+const techCards = [
+  {
+    icon: 'speed',
+    titleKey: 'tech.go.title',
+    descKey: 'tech.go.desc',
+    bullets: ['tech.go.bullet1', 'tech.go.bullet2', 'tech.go.bullet3'],
+  },
+  {
+    icon: 'dynamic_form',
+    titleKey: 'tech.event.title',
+    descKey: 'tech.event.desc',
+    bullets: ['tech.event.bullet1', 'tech.event.bullet2', 'tech.event.bullet3'],
+  },
+  {
+    icon: 'schema',
+    titleKey: 'tech.schema.title',
+    descKey: 'tech.schema.desc',
+    bullets: ['tech.schema.bullet1', 'tech.schema.bullet2', 'tech.schema.bullet3'],
+  },
+];
+---
+
+<BaseLayout title={t(lang, 'nav.technology')} lang={lang} description="DomainMesh — Built for performance. Deep dive into the core engine architecture.">
+
+  <!-- Page Hero -->
+  <section class="page-hero graphic-grid">
+    <div class="hero__deco-h" style="bottom: 120px; right: 0; width: 160px;"></div>
+    <div class="hero__deco-v" style="bottom: 120px; right: 160px; height: 192px;"></div>
+    <div class="container page-hero__inner page-hero__inner--center">
+      <div class="section-label" style="justify-content: center;">
+        <div class="section-label__line"></div>
+        <span class="section-label__text">{t(lang, 'tech.label')}</span>
+      </div>
+      <h1 class="page-hero__title" style="text-align: center;">
+        {t(lang, 'tech.title')} <span class="text-orange">{t(lang, 'tech.titleAccent')}</span>
+      </h1>
+      <p class="page-hero__subtitle" style="text-align: center; margin-left: auto; margin-right: auto;">
+        {t(lang, 'tech.subtitle')}
+      </p>
+    </div>
+  </section>
+
+  <!-- Tech Cards Section -->
+  <section class="section section--surface">
+    <div class="container">
+      <div class="tech-grid">
+        {techCards.map((card) => (
+          <div class="tech-card">
+            <div class="tech-card__icon-wrap">
+              <span class="material-symbols-outlined">{card.icon}</span>
+            </div>
+            <h3 class="tech-card__title">{t(lang, card.titleKey)}</h3>
+            <p class="tech-card__desc">{t(lang, card.descKey)}</p>
+            <ul class="tech-card__bullets">
+              {card.bullets.map((b) => (
+                <li>
+                  <span class="material-symbols-outlined" style="font-size: 1rem; color: var(--color-orange);">check_circle</span>
+                  {t(lang, b)}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture Placeholder -->
+  <section class="section">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 48px;">
+        <h2 style="font-family: var(--font-heading); font-size: clamp(1.5rem, 3vw, 2rem); text-transform: uppercase;">{t(lang, 'tech.arch.title')}</h2>
+        <p style="color: var(--color-text-secondary); margin-top: 8px;">{t(lang, 'tech.arch.desc')}</p>
+      </div>
+      <div class="arch-diagram">
+        <!-- Layer 1: Clients -->
+        <div class="arch-layer">
+          <div class="arch-layer__label">Clients</div>
+          <div class="arch-layer__items">
+            <div class="arch-item">Frontend App</div>
+            <div class="arch-item arch-item--accent">AI Assistants (MCP)</div>
+            <div class="arch-item">External APIs</div>
+          </div>
+        </div>
+
+        <!-- Layer 2: API Gateway -->
+        <div class="arch-layer">
+          <div class="arch-layer__label">API Gateway</div>
+          <div class="arch-layer__items">
+            <div class="arch-item">REST</div>
+            <div class="arch-item">gRPC</div>
+            <div class="arch-item arch-item--accent">MCP Server</div>
+          </div>
+        </div>
+
+        <!-- Layer 3: Services -->
+        <div class="arch-layer">
+          <div class="arch-layer__label">Services</div>
+          <div class="arch-layer__items arch-layer__items--4col">
+            <div class="arch-item">Domain Engine</div>
+            <div class="arch-item">Workflow Engine</div>
+            <div class="arch-item">Authorization</div>
+            <div class="arch-item">Event Processing</div>
+          </div>
+        </div>
+
+        <!-- Layer 4: Infrastructure -->
+        <div class="arch-layer">
+          <div class="arch-layer__label">Infrastructure</div>
+          <div class="arch-layer__items arch-layer__items--4col">
+            <div class="arch-item arch-item--infra">
+              <span class="arch-item__icon material-symbols-outlined">database</span>
+              ArangoDB
+            </div>
+            <div class="arch-item arch-item--infra">
+              <span class="arch-item__icon material-symbols-outlined">storage</span>
+              PostgreSQL
+            </div>
+            <div class="arch-item arch-item--infra">
+              <span class="arch-item__icon material-symbols-outlined">sync_alt</span>
+              NATS JetStream
+            </div>
+            <div class="arch-item arch-item--infra">
+              <span class="arch-item__icon material-symbols-outlined">schedule_send</span>
+              Temporal
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .page-hero {
+    position: relative;
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .page-hero__inner {
+    padding-top: 120px;
+    padding-bottom: 80px;
+    max-width: 48rem;
+  }
+
+  .page-hero__inner--center {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 56rem;
+  }
+
+  .page-hero__title {
+    font-family: var(--font-heading);
+    font-size: clamp(3rem, 6vw, 5rem);
+    line-height: 1;
+    text-transform: uppercase;
+    margin: 16px 0 24px;
+  }
+
+  .page-hero__subtitle {
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    max-width: 42rem;
+    margin-bottom: 32px;
+  }
+
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  .tech-card {
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-border);
+    padding: 40px 32px;
+    transition: border-color var(--transition-base);
+  }
+
+  .tech-card:hover {
+    border-color: rgba(255, 107, 0, 0.4);
+  }
+
+  .tech-card__icon-wrap {
+    width: 64px;
+    height: 64px;
+    background-color: rgba(255, 107, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-orange);
+    margin-bottom: 24px;
+    transition: transform var(--transition-base), background-color var(--transition-base);
+  }
+
+  .tech-card:hover .tech-card__icon-wrap {
+    transform: scale(1.1);
+    background-color: var(--color-orange);
+    color: var(--color-white);
+  }
+
+  .tech-card__icon-wrap .material-symbols-outlined {
+    font-size: 2rem;
+  }
+
+  .tech-card__title {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 16px;
+  }
+
+  .tech-card__desc {
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+
+  .tech-card__bullets {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .tech-card__bullets li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+  }
+
+  /* Architecture diagram */
+  .arch-diagram {
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-border);
+    padding: 48px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .arch-layer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .arch-layer__label {
+    font-family: var(--font-heading);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-orange);
+    padding-left: 4px;
+  }
+
+  .arch-layer__items {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .arch-layer__items--wrap {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .arch-layer__items--4col {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .arch-item {
+    background-color: var(--color-midnight);
+    border: 1px solid var(--color-border);
+    padding: 12px 16px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    text-align: center;
+    transition: border-color var(--transition-base), color var(--transition-base);
+  }
+
+  .arch-item:hover {
+    border-color: rgba(255, 107, 0, 0.3);
+    color: var(--color-white);
+  }
+
+  .arch-item--accent {
+    border-color: rgba(255, 107, 0, 0.4);
+    color: var(--color-orange);
+  }
+
+  .arch-item--infra {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: rgba(255, 107, 0, 0.05);
+    border-color: rgba(255, 107, 0, 0.2);
+  }
+
+  .arch-item__icon {
+    font-size: 1rem;
+    color: var(--color-orange);
+  }
+
+  @media (max-width: 768px) {
+    .arch-diagram {
+      padding: 24px 16px;
+    }
+
+    .arch-layer__items {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .arch-layer__items--4col {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .arch-layer__items {
+      grid-template-columns: 1fr;
+    }
+
+    .arch-layer__items--4col {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .tech-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

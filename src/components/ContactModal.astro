@@ -1,0 +1,750 @@
+---
+import type { Lang } from '../i18n/ui';
+import { t, getLocalizedPath } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+---
+
+<!-- Contact Modal Overlay -->
+<div id="contact-modal" class="modal" aria-hidden="true">
+  <div class="modal__backdrop" data-contact-close></div>
+  <div class="modal__container">
+    <div class="modal__header">
+      <h2 class="modal__title">
+        {t(lang, 'contact.title')} <span class="text-orange">{t(lang, 'contact.titleAccent')}</span>
+      </h2>
+      <button class="modal__close" data-contact-close aria-label="Close">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <div class="modal__body">
+      <!-- Step 1: Contact Form -->
+      <div id="contact-form-wrapper">
+        <p class="modal__subtitle">{t(lang, 'contact.subtitle')}</p>
+        <form class="contact-form" id="contact-form">
+          <div class="contact-form__field">
+            <label for="contact-salutation">{t(lang, 'contact.salutation')}</label>
+            <select id="contact-salutation" name="salutation" autocomplete="honorific-prefix" required>
+              <option value="" disabled selected></option>
+              <option value="mr">{t(lang, 'contact.salutation.mr')}</option>
+              <option value="mrs">{t(lang, 'contact.salutation.mrs')}</option>
+            </select>
+          </div>
+          <div class="contact-form__row">
+            <div class="contact-form__field">
+              <label for="contact-firstName">{t(lang, 'contact.firstName')}</label>
+              <input type="text" id="contact-firstName" name="firstName" autocomplete="given-name" required />
+            </div>
+            <div class="contact-form__field">
+              <label for="contact-lastName">{t(lang, 'contact.lastName')}</label>
+              <input type="text" id="contact-lastName" name="lastName" autocomplete="family-name" required />
+            </div>
+          </div>
+          <div class="contact-form__field">
+            <label for="contact-email">{t(lang, 'contact.email')}</label>
+            <input type="email" id="contact-email" name="email" autocomplete="email" required />
+          </div>
+          <div class="contact-form__field">
+            <label for="contact-company">{t(lang, 'contact.company')}</label>
+            <input type="text" id="contact-company" name="company" autocomplete="organization" />
+          </div>
+          <div class="contact-form__field">
+            <label for="contact-message">{t(lang, 'contact.message')}</label>
+            <textarea id="contact-message" name="message" rows="4" required></textarea>
+          </div>
+
+          <!-- Privacy Consent -->
+          <label class="contact-form__checkbox">
+            <input type="checkbox" id="contact-privacy" name="privacy" required />
+            <span set:html={t(lang, 'contact.privacy').replace('{privacyLink}', `<a href="${getLocalizedPath(lang, '/privacy')}" target="_blank" class="contact-form__link">${t(lang, 'contact.privacyLink')}</a>`)} />
+          </label>
+
+          <!-- Turnstile Widget -->
+          <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="dark"></div>
+
+          <button type="submit" id="submit-btn" class="btn btn-primary" style="width: 100%; justify-content: center;">
+            <span id="submit-text">{t(lang, 'contact.send')}</span>
+            <span class="material-symbols-outlined" style="font-size: 1.25rem;" id="submit-icon">send</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Step 2: Verification Code -->
+      <div id="verify-wrapper" class="contact-verify" style="display: none;">
+        <div class="contact-verify__icon">
+          <span class="material-symbols-outlined">mark_email_read</span>
+        </div>
+        <h3 class="contact-verify__title">{t(lang, 'contact.verifyTitle')}</h3>
+        <p class="contact-verify__desc">{t(lang, 'contact.verifyDesc')}</p>
+        <form class="contact-form" id="verify-form" style="width: 100%;">
+          <div class="contact-form__field">
+            <label for="verify-code">{t(lang, 'contact.verifyPlaceholder')}</label>
+            <input
+              type="text"
+              id="verify-code"
+              name="code"
+              maxlength="6"
+              pattern="[0-9]{6}"
+              inputmode="numeric"
+              autocomplete="one-time-code"
+              placeholder="000000"
+              required
+              class="contact-verify__input"
+            />
+          </div>
+          <button type="submit" id="verify-btn" class="btn btn-primary" style="width: 100%; justify-content: center;">
+            <span id="verify-text">{t(lang, 'contact.verifyBtn')}</span>
+            <span class="material-symbols-outlined" style="font-size: 1.25rem;">verified</span>
+          </button>
+        </form>
+        <p class="contact-verify__resend">
+          <button type="button" id="resend-btn" disabled>
+            {t(lang, 'contact.resend')} <span id="resend-countdown">(30s)</span>
+          </button>
+          <span class="contact-verify__sep">·</span>
+          <button type="button" id="back-to-form-btn">
+            {t(lang, 'contact.editMessage')}
+          </button>
+        </p>
+      </div>
+
+      <!-- Step 3: Success -->
+      <div id="success-wrapper" class="contact-success" style="display: none;">
+        <div class="contact-success__icon">
+          <span class="material-symbols-outlined">check_circle</span>
+        </div>
+        <h3 class="contact-success__title">{t(lang, 'contact.success')}</h3>
+        <p class="contact-success__desc">{t(lang, 'contact.successDesc')}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Turnstile Script (loaded with modal) -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<!-- Modal + Form Logic -->
+<script>
+  // Modal open/close
+  const modal = document.getElementById('contact-modal')!;
+  let isOpen = false;
+
+  function openModal() {
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    isOpen = true;
+  }
+
+  function closeModal() {
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    isOpen = false;
+    clearErrors();
+
+    // Only fully reset if the success screen is showing
+    if (successWrapper.style.display === 'block') {
+      resetModal();
+    }
+  }
+
+  function resetModal() {
+    formWrapper.style.display = '';
+    verifyWrapper.style.display = 'none';
+    successWrapper.style.display = 'none';
+    contactForm.reset();
+    verifyForm.reset();
+    clearErrors();
+    requestId = '';
+    lastSubmission = {};
+    if (resendTimer) { clearInterval(resendTimer); resendTimer = null; }
+    if (typeof turnstile !== 'undefined') {
+      turnstile.reset();
+    }
+  }
+
+  // Trigger: any element with data-contact-open
+  document.querySelectorAll('[data-contact-open]').forEach((el) => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal();
+    });
+  });
+
+  // Close: backdrop click, close button, escape
+  document.querySelectorAll('[data-contact-close]').forEach((el) => {
+    el.addEventListener('click', closeModal);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isOpen) closeModal();
+  });
+
+  // Auto-open if page has data-auto-open-contact
+  if (document.querySelector('[data-auto-open-contact]')) {
+    openModal();
+  }
+
+  // Form logic
+  const contactForm = document.getElementById('contact-form') as HTMLFormElement;
+  const formWrapper = document.getElementById('contact-form-wrapper')!;
+  const verifyWrapper = document.getElementById('verify-wrapper')!;
+  const verifyForm = document.getElementById('verify-form') as HTMLFormElement;
+  const successWrapper = document.getElementById('success-wrapper')!;
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+  const submitText = document.getElementById('submit-text')!;
+  const submitIcon = document.getElementById('submit-icon')!;
+  const verifyBtn = document.getElementById('verify-btn') as HTMLButtonElement;
+  const verifyText = document.getElementById('verify-text')!;
+
+  let requestId = '';
+  let lastSubmission: Record<string, string> = {};
+  let resendTimer: number | null = null;
+
+  // Step 1: Submit contact form
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearErrors();
+
+    const formData = new FormData(contactForm);
+    const turnstileToken = formData.get('cf-turnstile-response') as string;
+
+    if (!turnstileToken) {
+      showError(contactForm, 'Please complete the verification challenge.');
+      return;
+    }
+
+    setLoading(submitBtn, submitText, submitIcon, true);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          salutation: formData.get('salutation'),
+          firstName: formData.get('firstName'),
+          lastName: formData.get('lastName'),
+          email: formData.get('email'),
+          company: formData.get('company'),
+          message: formData.get('message'),
+          'cf-turnstile-response': turnstileToken,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        showError(contactForm, data.error || 'Something went wrong. Please try again.');
+        return;
+      }
+
+      requestId = data.request_id;
+
+      // Store submission data for potential resend
+      lastSubmission = {
+        salutation: formData.get('salutation') as string,
+        firstName: formData.get('firstName') as string,
+        lastName: formData.get('lastName') as string,
+        email: formData.get('email') as string,
+        company: formData.get('company') as string,
+        message: formData.get('message') as string,
+        'cf-turnstile-response': turnstileToken,
+      };
+
+      // Swap to verification step
+      formWrapper.style.display = 'none';
+      verifyWrapper.style.display = 'block';
+      (document.getElementById('verify-code') as HTMLInputElement).focus();
+      startResendCountdown();
+    } catch {
+      showError(contactForm, 'Network error. Please check your connection and try again.');
+    } finally {
+      setLoading(submitBtn, submitText, submitIcon, false);
+    }
+  });
+
+  // Step 2: Verify code
+  verifyForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearErrors();
+
+    const code = (document.getElementById('verify-code') as HTMLInputElement).value.trim();
+
+    if (code.length !== 6) {
+      showError(verifyForm, 'Please enter the 6-digit code.');
+      return;
+    }
+
+    setLoading(verifyBtn, verifyText, null, true);
+
+    try {
+      const res = await fetch('/api/contact-verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ request_id: requestId, code }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        showError(verifyForm, data.error || 'Verification failed. Please try again.');
+        return;
+      }
+
+      // Swap to success
+      verifyWrapper.style.display = 'none';
+      successWrapper.style.display = 'block';
+
+      // Mark as completed so closing resets everything
+      requestId = '';
+      lastSubmission = {};
+      if (resendTimer) { clearInterval(resendTimer); resendTimer = null; }
+    } catch {
+      showError(verifyForm, 'Network error. Please check your connection and try again.');
+    } finally {
+      setLoading(verifyBtn, verifyText, null, false);
+    }
+  });
+
+  // Helpers
+  function setLoading(btn: HTMLButtonElement, textEl: HTMLElement, iconEl: HTMLElement | null, loading: boolean) {
+    btn.disabled = loading;
+    if (loading) {
+      textEl.dataset.original = textEl.textContent || '';
+      textEl.textContent = '…';
+      if (iconEl) iconEl.style.display = 'none';
+    } else {
+      textEl.textContent = textEl.dataset.original || textEl.textContent;
+      if (iconEl) iconEl.style.display = '';
+    }
+  }
+
+  function showError(form: HTMLElement, message: string) {
+    clearErrors();
+    const el = document.createElement('div');
+    el.className = 'contact-form__error';
+    el.textContent = message;
+    form.appendChild(el);
+  }
+
+  function clearErrors() {
+    document.querySelectorAll('.contact-form__error').forEach((el) => el.remove());
+  }
+
+  // Resend countdown
+  const resendBtn = document.getElementById('resend-btn') as HTMLButtonElement;
+  const resendCountdown = document.getElementById('resend-countdown')!;
+
+  function startResendCountdown() {
+    let seconds = 30;
+    resendBtn.disabled = true;
+    resendCountdown.textContent = `(${seconds}s)`;
+    resendCountdown.style.display = '';
+
+    resendTimer = window.setInterval(() => {
+      seconds--;
+      if (seconds <= 0) {
+        clearInterval(resendTimer!);
+        resendTimer = null;
+        resendBtn.disabled = false;
+        resendCountdown.style.display = 'none';
+      } else {
+        resendCountdown.textContent = `(${seconds}s)`;
+      }
+    }, 1000);
+  }
+
+  resendBtn.addEventListener('click', async () => {
+    if (!requestId) return;
+
+    resendBtn.disabled = true;
+    clearErrors();
+
+    try {
+      const res = await fetch('/api/contact-resend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ request_id: requestId }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        showError(verifyForm, data.error || 'Failed to resend code.');
+        resendBtn.disabled = false;
+        return;
+      }
+
+      requestId = data.request_id;
+      (document.getElementById('verify-code') as HTMLInputElement).value = '';
+      startResendCountdown();
+    } catch {
+      showError(verifyForm, 'Network error. Please try again.');
+      resendBtn.disabled = false;
+    }
+  });
+
+  // Back to form (edit message)
+  document.getElementById('back-to-form-btn')!.addEventListener('click', () => {
+    verifyWrapper.style.display = 'none';
+    formWrapper.style.display = '';
+    verifyForm.reset();
+    clearErrors();
+    requestId = '';
+    if (resendTimer) { clearInterval(resendTimer); resendTimer = null; }
+    if (typeof turnstile !== 'undefined') {
+      turnstile.reset();
+    }
+  });
+</script>
+
+<style>
+  /* Modal overlay */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease;
+  }
+
+  .modal[aria-hidden='true'] {
+    opacity: 0;
+    pointer-events: none;
+    clip-path: inset(50%);
+  }
+
+  .modal[aria-hidden='false'] {
+    opacity: 1;
+    clip-path: none;
+  }
+
+  .modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+  }
+
+  .modal__container {
+    position: relative;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    width: 90%;
+    max-width: 520px;
+    max-height: 90vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    animation: modalSlideIn 0.25s ease;
+  }
+
+  .modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 32px 0;
+  }
+
+  .modal__title {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    line-height: 1.2;
+    flex: 1;
+    text-align: center;
+  }
+
+  .modal__close {
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    padding: 4px;
+    transition: color var(--transition-fast);
+    flex-shrink: 0;
+  }
+
+  .modal__close:hover {
+    color: var(--color-white);
+  }
+
+  .modal__body {
+    padding: 24px 32px 32px;
+  }
+
+  .modal__subtitle {
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+
+  /* Form fields */
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .contact-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .contact-form__field label {
+    font-family: var(--font-heading);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-secondary);
+  }
+
+  .contact-form__field input,
+  .contact-form__field textarea {
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-border);
+    color: var(--color-white);
+    padding: 10px 14px;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    transition: border-color var(--transition-fast);
+    outline: none;
+  }
+
+  .contact-form__field input:focus,
+  .contact-form__field textarea:focus {
+    border-color: var(--color-orange);
+  }
+
+  .contact-form__field input:-webkit-autofill,
+  .contact-form__field input:-webkit-autofill:hover,
+  .contact-form__field input:-webkit-autofill:focus,
+  .contact-form__field select:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px var(--color-surface) inset;
+    -webkit-text-fill-color: var(--color-white);
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
+  .contact-form__field textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .contact-form__field select {
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-border);
+    color: var(--color-white);
+    padding: 10px 14px;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    transition: border-color var(--transition-fast);
+    outline: none;
+    cursor: pointer;
+  }
+
+  .contact-form__field select:focus {
+    border-color: var(--color-orange);
+  }
+
+  .contact-form__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .contact-form__checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+    cursor: pointer;
+  }
+
+  .contact-form__checkbox input[type='checkbox'] {
+    margin-top: 2px;
+    accent-color: var(--color-orange);
+    flex-shrink: 0;
+  }
+
+  .contact-form__checkbox :global(.contact-form__link) {
+    color: var(--color-orange);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-weight: 600;
+  }
+
+  .contact-form__checkbox :global(.contact-form__link):hover {
+    color: var(--color-white);
+  }
+
+  .contact-form__error {
+    background-color: rgba(220, 38, 38, 0.1);
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    color: #fca5a5;
+    padding: 10px 14px;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    animation: fadeIn 0.2s ease;
+  }
+
+  /* Verification step */
+  .contact-verify {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .contact-verify__icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: rgba(255, 107, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-orange);
+    margin: 0 auto;
+  }
+
+  .contact-verify__icon .material-symbols-outlined {
+    font-size: 1.75rem;
+  }
+
+  .contact-verify__title {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    width: 100%;
+  }
+
+  .contact-verify__desc {
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin-bottom: 4px;
+    width: 100%;
+  }
+
+  .contact-verify__input {
+    font-size: 1.5rem !important;
+    letter-spacing: 0.5em;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .contact-verify__resend {
+    text-align: center;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  .contact-verify__sep {
+    color: var(--color-text-secondary);
+    opacity: 0.5;
+  }
+
+  .contact-verify__resend button {
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    font-size: 0.8125rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: color var(--transition-fast);
+  }
+
+  .contact-verify__resend button:hover:not(:disabled) {
+    color: var(--color-orange);
+  }
+
+  .contact-verify__resend button:disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
+
+  #back-to-form-btn {
+    color: var(--color-orange) !important;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    opacity: 1 !important;
+  }
+
+  /* Success state */
+  .contact-success {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 32px 0;
+    width: 100%;
+  }
+
+  .contact-success__icon {
+    color: #22c55e;
+    margin: 0 auto;
+  }
+
+  .contact-success__icon .material-symbols-outlined {
+    font-size: 3rem;
+  }
+
+  .contact-success__title {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #22c55e;
+    width: 100%;
+  }
+
+  .contact-success__desc {
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    width: 100%;
+  }
+
+  @keyframes modalSlideIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 640px) {
+    .modal__container {
+      width: 95%;
+    }
+
+    .modal__header {
+      padding: 20px 20px 0;
+    }
+
+    .modal__body {
+      padding: 20px;
+    }
+  }
+</style>

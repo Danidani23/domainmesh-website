@@ -1,0 +1,140 @@
+---
+import type { Lang } from '../i18n/ui';
+import { languages } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+// Build localized URLs — replace current lang segment
+const currentPath = Astro.url.pathname;
+const pathWithoutLang = currentPath.replace(/^\/[a-z]{2}(\/|$)/, '/');
+---
+
+<div class="lang-selector">
+  <button class="lang-selector__trigger" id="langTrigger" aria-label="Select language">
+    <span class="material-symbols-outlined lang-selector__icon">language</span>
+    <span class="lang-selector__current">{lang.toUpperCase()}</span>
+    <span class="material-symbols-outlined lang-selector__chevron">expand_more</span>
+  </button>
+  <div class="lang-selector__dropdown" id="langDropdown">
+    {Object.entries(languages).map(([code, name]) => (
+      <a
+        href={`/${code}${pathWithoutLang === '/' ? '' : pathWithoutLang}`}
+        class:list={['lang-selector__option', { 'lang-selector__option--active': code === lang }]}
+      >
+        <span class="lang-selector__code">{code.toUpperCase()}</span>
+        <span class="lang-selector__name">{name}</span>
+      </a>
+    ))}
+  </div>
+</div>
+
+<style>
+  .lang-selector {
+    position: relative;
+    border-left: 2px solid rgba(255, 255, 255, 0.2);
+    padding-left: 16px;
+    margin-left: 8px;
+  }
+
+  .lang-selector__trigger {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    color: var(--color-white);
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  .lang-selector__icon {
+    font-size: 1rem;
+    color: var(--color-orange);
+  }
+
+  .lang-selector__chevron {
+    font-size: 1rem;
+    transition: transform var(--transition-fast);
+  }
+
+  .lang-selector.is-open .lang-selector__chevron {
+    transform: rotate(180deg);
+  }
+
+  .lang-selector__dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    min-width: 180px;
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-border);
+    padding: 8px 0;
+    z-index: 100;
+    max-height: 320px;
+    overflow-y: auto;
+  }
+
+  .lang-selector.is-open .lang-selector__dropdown {
+    display: block;
+  }
+
+  .lang-selector__option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    transition: all var(--transition-fast);
+  }
+
+  .lang-selector__option:hover {
+    background-color: var(--color-surface-hover);
+    color: var(--color-white);
+  }
+
+  .lang-selector__option--active {
+    color: var(--color-orange);
+  }
+
+  .lang-selector__code {
+    font-weight: 700;
+    min-width: 24px;
+  }
+
+  .lang-selector__name {
+    font-weight: 400;
+  }
+
+  @media (max-width: 768px) {
+    .lang-selector {
+      border-left: none;
+      padding-left: 0;
+      margin-left: 0;
+    }
+  }
+</style>
+
+<script>
+  const triggers = document.querySelectorAll('#langTrigger');
+  triggers.forEach((trigger) => {
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const selector = trigger.closest('.lang-selector');
+      selector?.classList.toggle('is-open');
+    });
+  });
+
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.lang-selector.is-open').forEach((el) => {
+      el.classList.remove('is-open');
+    });
+  });
+</script>

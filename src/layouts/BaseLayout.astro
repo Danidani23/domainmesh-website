@@ -1,0 +1,52 @@
+---
+import Navbar from '../components/Navbar.astro';
+import ContactModal from '../components/ContactModal.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  title: string;
+  lang: Lang;
+  description?: string;
+}
+
+const { title, lang, description = '' } = Astro.props;
+const rtlLangs = ['ar'];
+const dir = rtlLangs.includes(lang) ? 'rtl' : 'ltr';
+const isDev = process.env.PUBLIC_ENVTYPE === 'dev';
+---
+
+<!doctype html>
+<html lang={lang} dir={dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title} | DomainMesh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,700&family=JetBrains+Mono&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    {isDev && (
+      <div style="background: #ff6600; color: white; text-align: center; padding: 6px; font-size: 13px; font-family: monospace; font-weight: bold; letter-spacing: 1px; position: relative; z-index: 9999;">
+        🚧 DEV ENVIRONMENT 🚧
+      </div>
+    )}
+    <Navbar lang={lang} />
+    <main>
+      <slot />
+    </main>
+    <ContactModal lang={lang} />
+    <Footer lang={lang} />
+  </body>
+</html>

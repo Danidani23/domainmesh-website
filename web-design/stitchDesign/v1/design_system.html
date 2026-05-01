@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>DomainMesh Design System</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=Roboto+Flex:opsz,wght@8..144,400;8..144,700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff6a00",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#23170f",
+                        "midnight-blue": "#050a30",
+                    },
+                    fontFamily: {
+                        "display": ["'Roboto Flex'", "sans-serif"],
+                        "heading": ["'Archivo Black'", "sans-serif"],
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+    <div class="relative flex min-h-screen flex-col overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <div class="px-40 flex flex-1 justify-center py-10">
+                <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+                    <!-- Header -->
+                    <div class="flex flex-wrap justify-between gap-3 p-4 mb-8 border-b border-primary/20 pb-8">
+                        <div class="flex min-w-72 flex-col gap-3">
+                            <p
+                                class="text-slate-900 dark:text-slate-100 text-5xl font-heading leading-tight tracking-tight">
+                                DomainMesh Design System</p>
+                            <p class="text-slate-600 dark:text-slate-400 text-lg font-normal leading-normal">A
+                                comprehensive guide to typography, colors, and UI components in the Bold &amp; Graphic
+                                style.</p>
+                        </div>
+                    </div>
+                    <!-- Colors -->
+                    <h2 class="text-primary text-3xl font-heading leading-tight px-4 pb-4 pt-8">Colors</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 p-4">
+                        <div class="flex flex-col items-center gap-2">
+                            <div class="size-24 rounded-lg bg-midnight-blue border border-primary/20 shadow-lg"></div>
+                            <span class="text-sm font-bold">Midnight Blue</span>
+                            <span class="text-xs text-slate-500">#050A30</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-2">
+                            <div class="size-24 rounded-lg bg-primary border border-primary/20 shadow-lg"></div>
+                            <span class="text-sm font-bold">Safety Orange</span>
+                            <span class="text-xs text-slate-500">#FF6B00</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-2">
+                            <div class="size-24 rounded-lg bg-white border border-primary/20 shadow-lg"></div>
+                            <span class="text-sm font-bold text-slate-900 dark:text-slate-100">White</span>
+                            <span class="text-xs text-slate-500">#FFFFFF</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-2">
+                            <div class="size-24 rounded-lg bg-background-dark border border-primary/20 shadow-lg"></div>
+                            <span class="text-sm font-bold">Background Dark</span>
+                            <span class="text-xs text-slate-500">#23170F</span>
+                        </div>
+                    </div>
+                    <!-- Typography -->
+                    <h2 class="text-primary text-3xl font-heading leading-tight px-4 pb-4 pt-12">Typography</h2>
+                    <div class="p-4 space-y-8 bg-black/5 dark:bg-white/5 rounded-xl border border-primary/10">
+                        <div>
+                            <p class="text-sm text-primary font-bold mb-2 uppercase tracking-wider">Headings (Archivo
+                                Black)</p>
+                            <h1 class="text-5xl font-heading mb-2">H1 Heading Example</h1>
+                            <h2 class="text-4xl font-heading mb-2">H2 Heading Example</h2>
+                            <h3 class="text-3xl font-heading mb-2">H3 Heading Example</h3>
+                            <h4 class="text-2xl font-heading mb-2">H4 Heading Example</h4>
+                        </div>
+                        <div class="pt-6 border-t border-primary/10">
+                            <p class="text-sm text-primary font-bold mb-2 uppercase tracking-wider">Body (Roboto Flex)
+                            </p>
+                            <p class="text-lg mb-2">Body Large: The quick brown fox jumps over the lazy dog.</p>
+                            <p class="text-base mb-2">Body Regular: The quick brown fox jumps over the lazy dog.</p>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">Body Small: The quick brown fox jumps
+                                over the lazy dog.</p>
+                        </div>
+                    </div>
+                    <!-- UI Components -->
+                    <h2 class="text-primary text-3xl font-heading leading-tight px-4 pb-4 pt-12">UI Components</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-4">
+                        <!-- Buttons -->
+                        <div class="space-y-6">
+                            <h3 class="text-xl font-heading text-slate-900 dark:text-slate-100">Buttons</h3>
+                            <div class="flex flex-col gap-4">
+                                <button
+                                    class="bg-primary hover:bg-primary/90 text-midnight-blue font-bold py-3 px-6 rounded-lg transition-colors w-fit">
+                                    Primary CTA Button
+                                </button>
+                                <button
+                                    class="bg-transparent border-2 border-slate-900 dark:border-slate-100 text-slate-900 dark:text-slate-100 hover:bg-slate-900 hover:text-white dark:hover:bg-slate-100 dark:hover:text-midnight-blue font-bold py-3 px-6 rounded-lg transition-colors w-fit">
+                                    Secondary Button
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Inputs -->
+                        <div class="space-y-6">
+                            <h3 class="text-xl font-heading text-slate-900 dark:text-slate-100">Input Fields</h3>
+                            <div class="flex flex-col gap-4">
+                                <div class="flex flex-col gap-1">
+                                    <label class="text-sm font-bold text-slate-600 dark:text-slate-400">Default
+                                        Input</label>
+                                    <input
+                                        class="bg-background-light dark:bg-midnight-blue border border-primary focus:ring-2 focus:ring-primary focus:border-transparent rounded-lg px-4 py-3 text-slate-900 dark:text-slate-100 placeholder-slate-500 w-full outline-none"
+                                        placeholder="Enter text here..." type="text" />
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <label class="text-sm font-bold text-slate-600 dark:text-slate-400">Disabled
+                                        Input</label>
+                                    <input
+                                        class="bg-slate-100 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-3 text-slate-500 cursor-not-allowed w-full outline-none opacity-50"
+                                        disabled="" placeholder="Disabled field" type="text" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Icons -->
+                    <h2 class="text-primary text-3xl font-heading leading-tight px-4 pb-4 pt-12">Icon Set</h2>
+                    <div class="flex flex-wrap gap-6 p-4">
+                        <div
+                            class="flex items-center justify-center size-16 rounded-xl bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-midnight-blue transition-colors cursor-pointer">
+                            <span class="material-symbols-outlined text-3xl">category</span>
+                        </div>
+                        <div
+                            class="flex items-center justify-center size-16 rounded-xl bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-midnight-blue transition-colors cursor-pointer">
+                            <span class="material-symbols-outlined text-3xl">architecture</span>
+                        </div>
+                        <div
+                            class="flex items-center justify-center size-16 rounded-xl bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-midnight-blue transition-colors cursor-pointer">
+                            <span class="material-symbols-outlined text-3xl">hub</span>
+                        </div>
+                        <div
+                            class="flex items-center justify-center size-16 rounded-xl bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-midnight-blue transition-colors cursor-pointer">
+                            <span class="material-symbols-outlined text-3xl">data_object</span>
+                        </div>
+                        <div
+                            class="flex items-center justify-center size-16 rounded-xl bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-midnight-blue transition-colors cursor-pointer">
+                            <span class="material-symbols-outlined text-3xl">schema</span>
+                        </div>
+                    </div>
+                    <!-- Grid System -->
+                    <h2 class="text-primary text-3xl font-heading leading-tight px-4 pb-4 pt-12">Grid System (12-Column)
+                    </h2>
+                    <div class="p-4 mb-20">
+                        <div class="grid grid-cols-12 gap-4 h-24">
+                            <div
+                                class="col-span-1 bg-primary/20 border border-primary/30 rounded-lg flex items-center justify-center text-xs font-bold">
+                                1</div>
+                            <div
+                                class="col-span-1 bg-primary/20 border border-primary/30 rounded-lg flex items-center justify-center text-xs font-bold">
+                                1</div>
+                            <div
+                                class="col-span-1 bg-primary/20 border border-primary/30 rounded-lg flex items-center justify-center text-xs font-bold">
+                                1</div>
+                            <div
+                                class="col-span-1 bg-primary/20 border border-primary/30 rounded-lg flex items-center justify-center text-xs font-bold">
+                                1</div>
+                            <div
+                                class="col-span-1 bg-primary/20 border border-primary/30 rounded-lg flex items-center justify-center text-xs font-bold">
+                                1</div>
+                            <div
+                                class="col-span-1 bg-primary/20 border border-primary/30 rounded-lg flex items-center justify-center text-xs font-bold">
+                                1</div>
+                            <div
+                                class="col-span-1 bg-primary/20 border border-primary/30 rounded-lg flex items-center justify-center text-xs font-bold">
+                                1</div>
+                            <div
+                                class="col-span-1 bg-primary/20 border border-primary/30 rounded-lg flex items-center justify-center text-xs font-bold">
+                                1</div>
+                            <div
+                                class="col-span-1 bg-primary/20 border border-primary/30 rounded-lg flex items-center justify-center text-xs font-bold">
+                                1</div>
+                            <div
+                                class="col-span-1 bg-primary/20 border border-primary/30 rounded-lg flex items-center justify-center text-xs font-bold">
+                                1</div>
+                            <div
+                                class="col-span-1 bg-primary/20 border border-primary/30 rounded-lg flex items-center justify-center text-xs font-bold">
+                                1</div>
+                            <div
+                                class="col-span-1 bg-primary/20 border border-primary/30 rounded-lg flex items-center justify-center text-xs font-bold">
+                                1</div>
+                        </div>
+                        <div class="grid grid-cols-12 gap-4 h-24 mt-4">
+                            <div
+                                class="col-span-4 bg-primary/30 border border-primary/40 rounded-lg flex items-center justify-center font-bold">
+                                4</div>
+                            <div
+                                class="col-span-4 bg-primary/30 border border-primary/40 rounded-lg flex items-center justify-center font-bold">
+                                4</div>
+                            <div
+                                class="col-span-4 bg-primary/30 border border-primary/40 rounded-lg flex items-center justify-center font-bold">
+                                4</div>
+                        </div>
+                        <div class="grid grid-cols-12 gap-4 h-24 mt-4">
+                            <div
+                                class="col-span-6 bg-primary/40 border border-primary/50 rounded-lg flex items-center justify-center font-bold">
+                                6</div>
+                            <div
+                                class="col-span-6 bg-primary/40 border border-primary/50 rounded-lg flex items-center justify-center font-bold">
+                                6</div>
+                        </div>
+                        <div class="grid grid-cols-12 gap-4 h-24 mt-4">
+                            <div
+                                class="col-span-12 bg-primary/50 border border-primary/60 rounded-lg flex items-center justify-center font-bold">
+                                12</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

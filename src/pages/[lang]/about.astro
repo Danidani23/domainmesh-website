@@ -1,0 +1,214 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import type { Lang } from '../../i18n/ui';
+import { t, languages } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+
+const values = [
+  { icon: 'layers',  titleKey: 'about.scalability.title', descKey: 'about.scalability.desc' },
+  { icon: 'bolt',    titleKey: 'about.speed.title',       descKey: 'about.speed.desc' },
+  { icon: 'tune',    titleKey: 'about.simplicity.title',  descKey: 'about.simplicity.desc' },
+  { icon: 'shield',  titleKey: 'about.sovereignty.title', descKey: 'about.sovereignty.desc' },
+];
+---
+
+<BaseLayout title={t(lang, 'nav.about')} lang={lang} description="DomainMesh — Our mission to model the world.">
+
+  <!-- Page Hero -->
+  <section class="page-hero graphic-grid">
+    <div class="hero__deco-h" style="top: 160px; left: 0; width: 128px;"></div>
+    <div class="hero__deco-v" style="top: 160px; left: 128px; height: 192px;"></div>
+    <div class="container page-hero__inner">
+      <div class="section-label">
+        <div class="section-label__line"></div>
+        <span class="section-label__text">{t(lang, 'about.label')}</span>
+      </div>
+      <h1 class="page-hero__title">
+        {t(lang, 'about.title')}<br />
+        <span class="text-orange">{t(lang, 'about.titleAccent')}</span>
+      </h1>
+      <p class="page-hero__subtitle">{t(lang, 'about.subtitle')}</p>
+    </div>
+  </section>
+
+  <!-- Vision & Story -->
+  <section class="section section--surface">
+    <div class="container">
+      <div class="about-two-col">
+        <div class="about-block">
+          <div class="about-block__header">
+            <span class="material-symbols-outlined about-block__icon">visibility</span>
+            <h2>{t(lang, 'about.vision.title')}</h2>
+          </div>
+          <p class="about-block__text">{t(lang, 'about.vision.desc')}</p>
+        </div>
+        <div class="about-block">
+          <div class="about-block__header">
+            <span class="material-symbols-outlined about-block__icon">history_edu</span>
+            <h2>{t(lang, 'about.story.title')}</h2>
+          </div>
+          <p class="about-block__text">{t(lang, 'about.story.desc')}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Values -->
+  <section class="section">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 64px;">
+        <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem); text-transform: uppercase;">{t(lang, 'about.values.title')}</h2>
+        <p style="color: var(--color-text-secondary); margin-top: 8px;">{t(lang, 'about.values.subtitle')}</p>
+      </div>
+      <div class="values-grid">
+        {values.map((v) => (
+          <div class="value-card">
+            <div class="value-card__icon-wrap">
+              <span class="material-symbols-outlined">{v.icon}</span>
+            </div>
+            <h3 class="value-card__title">{t(lang, v.titleKey)}</h3>
+            <p class="value-card__desc">{t(lang, v.descKey)}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .page-hero {
+    position: relative;
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .page-hero__inner {
+    padding-top: 120px;
+    padding-bottom: 80px;
+    max-width: 48rem;
+  }
+
+  .page-hero__title {
+    font-family: var(--font-heading);
+    font-size: clamp(3rem, 6vw, 5rem);
+    line-height: 1;
+    text-transform: uppercase;
+    margin: 16px 0 24px;
+  }
+
+  .page-hero__subtitle {
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    max-width: 38rem;
+  }
+
+  .about-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+  }
+
+  .about-block__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .about-block__header h2 {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    text-transform: uppercase;
+  }
+
+  .about-block__icon {
+    font-size: 2rem;
+    color: var(--color-orange);
+  }
+
+  .about-block__text {
+    color: var(--color-text-secondary);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+  }
+
+  .value-card {
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-border);
+    padding: 40px 32px;
+    transition: border-color var(--transition-base);
+  }
+
+  .value-card:hover {
+    border-color: rgba(255, 107, 0, 0.4);
+  }
+
+  .value-card__icon-wrap {
+    width: 56px;
+    height: 56px;
+    background-color: rgba(255, 107, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-orange);
+    margin-bottom: 20px;
+    transition: background-color var(--transition-base), color var(--transition-base);
+  }
+
+  .value-card:hover .value-card__icon-wrap {
+    background-color: var(--color-orange);
+    color: var(--color-white);
+  }
+
+  .value-card__icon-wrap .material-symbols-outlined {
+    font-size: 1.75rem;
+  }
+
+  .value-card__title {
+    font-family: var(--font-heading);
+    font-size: 1.375rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 12px;
+  }
+
+  .value-card__desc {
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .about-two-col {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    .values-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .values-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

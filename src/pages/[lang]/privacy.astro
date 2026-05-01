@@ -1,0 +1,138 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import type { Lang } from '../../i18n/ui';
+import { t, languages } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+---
+
+<BaseLayout title={t(lang, 'privacy.title')} lang={lang} description="Privacy Policy for DomainMesh">
+  <section class="legal-hero">
+    <div class="container">
+      <h1 class="legal-hero__title">{t(lang, 'privacy.title')}</h1>
+      <p class="legal-hero__date">{t(lang, 'privacy.lastUpdated')}: March 2025</p>
+    </div>
+  </section>
+
+  <section class="legal-content">
+    <div class="container">
+      <div class="legal-card">
+        <h2>1. {t(lang, 'privacy.controller.title')}</h2>
+        <div class="legal-text">
+          <p>Daniel Molnár</p>
+          <p>Lindenhof 3, 8604 Volketswil, Switzerland</p>
+          <p>Email: <a href="mailto:hello@domainmesh.io">hello@domainmesh.io</a></p>
+        </div>
+      </div>
+
+      <div class="legal-card">
+        <h2>2. {t(lang, 'privacy.dataCollected.title')}</h2>
+        <div class="legal-text">
+          <p>{t(lang, 'privacy.dataCollected.desc')}</p>
+          <ul>
+            <li>{t(lang, 'privacy.dataCollected.item1')}</li>
+            <li>{t(lang, 'privacy.dataCollected.item2')}</li>
+            <li>{t(lang, 'privacy.dataCollected.item3')}</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="legal-card">
+        <h2>3. {t(lang, 'privacy.purpose.title')}</h2>
+        <div class="legal-text">
+          <p>{t(lang, 'privacy.purpose.desc')}</p>
+          <ul>
+            <li>{t(lang, 'privacy.purpose.item1')}</li>
+            <li>{t(lang, 'privacy.purpose.item2')}</li>
+            <li>{t(lang, 'privacy.purpose.item3')}</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="legal-card">
+        <h2>4. {t(lang, 'privacy.rights.title')}</h2>
+        <div class="legal-text">
+          <p>{t(lang, 'privacy.rights.desc')}</p>
+        </div>
+      </div>
+
+      <div class="legal-card">
+        <h2>5. {t(lang, 'privacy.contact.title')}</h2>
+        <div class="legal-text">
+          <p>{t(lang, 'privacy.contact.desc')}</p>
+          <p><a href="mailto:hello@domainmesh.io">hello@domainmesh.io</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-hero {
+    padding: 120px 0 60px;
+    border-bottom: 2px solid var(--color-orange);
+  }
+
+  .legal-hero__title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 3rem);
+    text-transform: uppercase;
+    color: var(--color-white);
+  }
+
+  .legal-hero__date {
+    margin-top: 12px;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+
+  .legal-content {
+    padding: 64px 0 96px;
+  }
+
+  .legal-content .container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    max-width: 800px;
+  }
+
+  .legal-card {
+    border: 2px solid var(--color-border);
+    padding: 32px;
+  }
+
+  .legal-card h2 {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-orange);
+    margin-bottom: 20px;
+  }
+
+  .legal-text {
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.8;
+  }
+
+  .legal-text p {
+    margin-bottom: 12px;
+  }
+
+  .legal-text ul {
+    margin: 12px 0;
+    padding-left: 24px;
+  }
+
+  .legal-text li {
+    margin-bottom: 8px;
+  }
+</style>

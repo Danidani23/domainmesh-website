@@ -1,0 +1,199 @@
+---
+import type { Lang } from '../i18n/ui';
+import { t, getLocalizedPath } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+import packageJson from '../../package.json';
+
+const { lang } = Astro.props;
+const isDev = import.meta.env.PUBLIC_ENVTYPE === 'dev';
+const version = isDev ? 'DEV' : `v${packageJson.version}`;
+---
+
+<footer class="footer">
+  <div class="footer__inner container">
+    <!-- CTA Banner -->
+    <div class="footer__cta">
+      <p class="footer__cta-text">{t(lang, 'footer.cta')}</p>
+      <button data-contact-open class="btn btn-primary">
+        {t(lang, 'footer.contact')}
+        <span class="material-symbols-outlined">arrow_forward</span>
+      </button>
+    </div>
+
+    <!-- Main Footer Grid -->
+    <div class="footer__grid">
+      <!-- Brand Column -->
+      <div class="footer__brand">
+        <div class="footer__logo">
+          <div class="footer__logo-icon">DM</div>
+          <span class="footer__logo-text">domainmesh</span>
+        </div>
+        <p class="footer__tagline">A project by Daniel Molnár</p>
+      </div>
+
+      <!-- Legal Column -->
+      <div class="footer__nav">
+        <p class="footer__nav-title">{t(lang, 'footer.legal')}</p>
+        <a href={getLocalizedPath(lang, '/privacy')} class="footer__nav-link">{t(lang, 'footer.privacy')}</a>
+        <a href={getLocalizedPath(lang, '/terms')} class="footer__nav-link">{t(lang, 'footer.terms')}</a>
+        <a href={getLocalizedPath(lang, '/imprint')} class="footer__nav-link">{t(lang, 'footer.imprint')}</a>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footer__bottom">
+      <p class="footer__copyright">{t(lang, 'footer.copyright')}</p>
+      <p class="footer__version">{version}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 2px solid var(--color-orange);
+    padding: 0;
+    margin-top: 80px;
+  }
+
+  .footer__inner {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* CTA Banner */
+  .footer__cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    padding: 48px 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .footer__cta-text {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    color: var(--color-white);
+    text-transform: uppercase;
+  }
+
+  /* Grid Section */
+  .footer__grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 48px;
+    padding: 48px 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* Brand */
+  .footer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .footer__logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .footer__logo-icon {
+    width: 32px;
+    height: 32px;
+    background-color: var(--color-orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    color: var(--color-white);
+  }
+
+  .footer__logo-text {
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--color-white);
+  }
+
+  .footer__tagline {
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+
+  /* Nav Columns */
+  .footer__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer__nav-title {
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-orange);
+    margin-bottom: 4px;
+  }
+
+  .footer__nav-link {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    transition: color var(--transition-fast);
+    line-height: 1.4;
+  }
+
+  .footer__nav-link:hover {
+    color: var(--color-white);
+  }
+
+  /* Bottom Bar */
+  .footer__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 0;
+  }
+
+  .footer__copyright {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+  }
+
+  .footer__version {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-text-secondary);
+    letter-spacing: 0.04em;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .footer__cta {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .footer__grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .footer__bottom {
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-start;
+    }
+  }
+</style>

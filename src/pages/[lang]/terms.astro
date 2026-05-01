@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import type { Lang } from '../../i18n/ui';
+import { t, languages } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+---
+
+<BaseLayout title={t(lang, 'terms.title')} lang={lang} description="Terms of Service for DomainMesh">
+  <section class="legal-hero">
+    <div class="container">
+      <h1 class="legal-hero__title">{t(lang, 'terms.title')}</h1>
+      <p class="legal-hero__date">{t(lang, 'terms.lastUpdated')}: March 2025</p>
+    </div>
+  </section>
+
+  <section class="legal-content">
+    <div class="container">
+      <div class="legal-card">
+        <h2>1. {t(lang, 'terms.scope.title')}</h2>
+        <div class="legal-text">
+          <p>{t(lang, 'terms.scope.desc')}</p>
+        </div>
+      </div>
+
+      <div class="legal-card">
+        <h2>2. {t(lang, 'terms.usage.title')}</h2>
+        <div class="legal-text">
+          <p>{t(lang, 'terms.usage.desc')}</p>
+        </div>
+      </div>
+
+      <div class="legal-card">
+        <h2>3. {t(lang, 'terms.ip.title')}</h2>
+        <div class="legal-text">
+          <p>{t(lang, 'terms.ip.desc')}</p>
+        </div>
+      </div>
+
+      <div class="legal-card">
+        <h2>4. {t(lang, 'terms.liability.title')}</h2>
+        <div class="legal-text">
+          <p>{t(lang, 'terms.liability.desc')}</p>
+        </div>
+      </div>
+
+      <div class="legal-card">
+        <h2>5. {t(lang, 'terms.jurisdiction.title')}</h2>
+        <div class="legal-text">
+          <p>{t(lang, 'terms.jurisdiction.desc')}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-hero {
+    padding: 120px 0 60px;
+    border-bottom: 2px solid var(--color-orange);
+  }
+
+  .legal-hero__title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 3rem);
+    text-transform: uppercase;
+    color: var(--color-white);
+  }
+
+  .legal-hero__date {
+    margin-top: 12px;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+
+  .legal-content {
+    padding: 64px 0 96px;
+  }
+
+  .legal-content .container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    max-width: 800px;
+  }
+
+  .legal-card {
+    border: 2px solid var(--color-border);
+    padding: 32px;
+  }
+
+  .legal-card h2 {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-orange);
+    margin-bottom: 20px;
+  }
+
+  .legal-text {
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.8;
+  }
+
+  .legal-text p {
+    margin-bottom: 12px;
+  }
+</style>

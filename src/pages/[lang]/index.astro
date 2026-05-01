@@ -1,0 +1,569 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FeatureCard from '../../components/FeatureCard.astro';
+import FeatureModal from '../../components/FeatureModal.astro';
+import type { Lang } from '../../i18n/ui';
+import { t, languages } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+
+const engineFeatures = [
+  { icon: 'schema', titleKey: 'engine.schema.title', descKey: 'engine.schema.desc', detailKey: 'engine.schema.detail' },
+  { icon: 'rule', titleKey: 'engine.validation.title', descKey: 'engine.validation.desc', detailKey: 'engine.validation.detail' },
+  { icon: 'history', titleKey: 'engine.version.title', descKey: 'engine.version.desc', detailKey: 'engine.version.detail' },
+  { icon: 'code_blocks', titleKey: 'engine.go.title', descKey: 'engine.go.desc', detailKey: 'engine.go.detail' },
+  { icon: 'database', titleKey: 'engine.graphDb.title', descKey: 'engine.graphDb.desc', detailKey: 'engine.graphDb.detail' },
+  { icon: 'hub', titleKey: 'engine.api.title', descKey: 'engine.api.desc', detailKey: 'engine.api.detail' },
+  { icon: 'smart_toy', titleKey: 'engine.mcp.title', descKey: 'engine.mcp.desc', detailKey: 'engine.mcp.detail' },
+];
+
+const workflowFeatures = [
+  { icon: 'account_tree', titleKey: 'workflow.bpmn.title', descKey: 'workflow.bpmn.desc', detailKey: 'workflow.bpmn.detail' },
+  { icon: 'api', titleKey: 'workflow.api.title', descKey: 'workflow.api.desc', detailKey: 'workflow.api.detail' },
+  { icon: 'psychology', titleKey: 'workflow.ai.title', descKey: 'workflow.ai.desc', detailKey: 'workflow.ai.detail' },
+  { icon: 'sync_alt', titleKey: 'workflow.integrate.title', descKey: 'workflow.integrate.desc', detailKey: 'workflow.integrate.detail' },
+  { icon: 'schedule_send', titleKey: 'workflow.async.title', descKey: 'workflow.async.desc', detailKey: 'workflow.async.detail' },
+  { icon: 'data_object', titleKey: 'workflow.yaml.title', descKey: 'workflow.yaml.desc', detailKey: 'workflow.yaml.detail' },
+];
+const cloudFeatures = [
+  { icon: 'shield', titleKey: 'cloud.sovereignty.title', descKey: 'cloud.sovereignty.desc' },
+  { icon: 'sync_alt', titleKey: 'cloud.portable.title', descKey: 'cloud.portable.desc' },
+  { icon: 'public', titleKey: 'cloud.european.title', descKey: 'cloud.european.desc' },
+  { icon: 'code', titleKey: 'cloud.opensource.title', descKey: 'cloud.opensource.desc' },
+];
+---
+
+<BaseLayout title={t(lang, 'nav.home')} lang={lang} description="DomainMesh — Design complex data systems. Manage and migrate them seamlessly. Keep your application development quick, flexible, and sovereign.">
+
+  <!-- Hero Section -->
+  <section class="hero graphic-grid">
+    <!-- Decorative lines -->
+    <div class="hero__deco-h" style="top: 160px; left: 0; width: 128px;"></div>
+    <div class="hero__deco-v" style="top: 160px; left: 128px; height: 256px;"></div>
+    <div class="hero__deco-h" style="bottom: 160px; right: 0; width: 256px;"></div>
+    <div class="hero__deco-v" style="bottom: 160px; right: 256px; height: 128px;"></div>
+
+    <div class="container hero__grid">
+      <div class="hero__content">
+        <div class="section-label">
+          <div class="section-label__dot"></div>
+          <div class="section-label__line"></div>
+          <span class="section-label__text">{t(lang, 'hero.label')}</span>
+        </div>
+
+        <h1 class="hero__title">
+          {t(lang, 'hero.title.line1')}<br />
+          <span class="hero__title--outline">{t(lang, 'hero.title.line2')}</span><br />
+          {t(lang, 'hero.title.line3')}
+        </h1>
+
+        <p class="hero__body">
+          {t(lang, 'hero.body')}
+        </p>
+
+        <div class="hero__buttons">
+          <div class="hero__popup-wrap" id="getstarted-wrap">
+            <button type="button" class="btn btn-primary" id="getstarted-btn">
+              {t(lang, 'hero.cta.primary')}
+              <span class="material-symbols-outlined" style="font-size: 1.25rem;">arrow_forward</span>
+            </button>
+            <div class="hero__popup" id="getstarted-popup">
+              <div class="hero__popup-badge">
+                <span class="material-symbols-outlined" style="font-size: 1rem;">schedule</span>
+                {t(lang, 'hero.comingSoon')}
+              </div>
+              <p class="hero__popup-text">{t(lang, 'hero.comingSoon.getStarted')}</p>
+              <button type="button" class="btn btn-primary hero__popup-cta" data-contact-open>
+                {t(lang, 'hero.comingSoon.contact')}
+                <span class="material-symbols-outlined" style="font-size: 1.125rem;">mail</span>
+              </button>
+            </div>
+          </div>
+          <div class="hero__popup-wrap" id="docs-wrap">
+            <button type="button" class="btn btn-secondary" id="docs-btn">
+              {t(lang, 'hero.cta.secondary')}
+            </button>
+            <div class="hero__popup" id="docs-popup">
+              <div class="hero__popup-badge">
+                <span class="material-symbols-outlined" style="font-size: 1rem;">schedule</span>
+                {t(lang, 'hero.comingSoon')}
+              </div>
+              <p class="hero__popup-text">{t(lang, 'hero.comingSoon.docs')}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Graphic -->
+      <div class="hero__graphic">
+        <div class="hero__graphic-frame">
+          <div class="hero__graphic-canvas">
+            <!-- Graph nodes -->
+            <div class="hero__node hero__node--a">A</div>
+            <div class="hero__node hero__node--b">B</div>
+            <div class="hero__node hero__node--c">C</div>
+            <div class="hero__node hero__node--d">D</div>
+            <!-- Node connection lines -->
+            <svg class="hero__lines" viewBox="0 0 400 400" preserveAspectRatio="none">
+              <line x1="100" y1="100" x2="300" y2="200" stroke="#FF6B00" stroke-width="3" />
+              <line x1="100" y1="100" x2="140" y2="300" stroke="white" stroke-width="1.5" stroke-dasharray="6 3" />
+              <line x1="140" y1="300" x2="300" y2="200" stroke="#FF6B00" stroke-width="3" />
+              <line x1="300" y1="200" x2="260" y2="100" stroke="rgba(255,255,255,0.2)" stroke-width="6" />
+            </svg>
+            <!-- Code snippet overlay -->
+            <div class="hero__code">
+              <div><span class="hero__code-keyword">type</span> Node struct {'{'}</div>
+              <div class="hero__code-indent">ID string <span class="hero__code-tag">{"`"}json:"id"{"`"}</span></div>
+              <div class="hero__code-indent">Labels []string <span class="hero__code-tag">{"`"}json:"labels"{"`"}</span></div>
+              <div>{'}'}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DomainMesh Engine Section -->
+  <section class="section section--surface" id="engine">
+    <div class="container">
+      <div class="section__header">
+        <div>
+          <div class="section-label">
+            <div class="section-label__line"></div>
+            <span class="section-label__text">{t(lang, 'engine.label')}</span>
+          </div>
+          <h2>
+            {t(lang, 'engine.title')}<br />
+            <span class="text-orange">{t(lang, 'engine.titleAccent')}</span>
+          </h2>
+        </div>
+        <p class="section__header-desc">
+          {t(lang, 'engine.desc')}
+        </p>
+      </div>
+
+      <div class="feature-grid">
+        {engineFeatures.map((f) => (
+          <FeatureCard
+            icon={f.icon}
+            title={t(lang, f.titleKey)}
+            description={t(lang, f.descKey)}
+            detail={t(lang, f.detailKey)}
+            exploreText={t(lang, 'explore')}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Workflow Engine Section -->
+  <section class="section" id="workflow">
+    <div class="container">
+      <div class="section__header">
+        <div>
+          <div class="section-label">
+            <div class="section-label__line"></div>
+            <span class="section-label__text">{t(lang, 'workflow.label')}</span>
+          </div>
+          <h2>
+            {t(lang, 'workflow.title')}<br />
+            <span class="text-orange">{t(lang, 'workflow.titleAccent')}</span>
+          </h2>
+        </div>
+        <p class="section__header-desc">
+          {t(lang, 'workflow.desc')}
+        </p>
+      </div>
+
+      <div class="feature-grid">
+        {workflowFeatures.map((f) => (
+          <FeatureCard
+            icon={f.icon}
+            title={t(lang, f.titleKey)}
+            description={t(lang, f.descKey)}
+            detail={t(lang, f.detailKey)}
+            exploreText={t(lang, 'explore')}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Cloud Agnostic Section -->
+  <section class="section section--surface" id="cloud">
+    <div class="container">
+      <div class="section__header">
+        <div>
+          <div class="section-label">
+            <div class="section-label__line"></div>
+            <span class="section-label__text">{t(lang, 'cloud.label')}</span>
+          </div>
+          <h2>
+            {t(lang, 'cloud.title')}<br />
+            <span class="text-orange">{t(lang, 'cloud.titleAccent')}</span>
+          </h2>
+        </div>
+        <p class="section__header-desc">
+          {t(lang, 'cloud.desc')}
+        </p>
+      </div>
+
+      <div class="feature-grid feature-grid--4">
+        {cloudFeatures.map((f) => (
+          <div class="cloud-card">
+            <div class="cloud-card__icon-wrap">
+              <span class="material-symbols-outlined">{f.icon}</span>
+            </div>
+            <h3 class="cloud-card__title">{t(lang, f.titleKey)}</h3>
+            <p class="cloud-card__desc">{t(lang, f.descKey)}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <FeatureModal />
+
+<script>
+  // Coming Soon popup toggle
+  function setupPopup(btnId: string, popupId: string, wrapId: string) {
+    const btn = document.getElementById(btnId);
+    const popup = document.getElementById(popupId);
+    const wrap = document.getElementById(wrapId);
+    if (!btn || !popup || !wrap) return;
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = popup.classList.contains('is-visible');
+      // Close all popups first
+      document.querySelectorAll('.hero__popup.is-visible').forEach((p) => p.classList.remove('is-visible'));
+      if (!isOpen) popup.classList.add('is-visible');
+    });
+  }
+
+  setupPopup('getstarted-btn', 'getstarted-popup', 'getstarted-wrap');
+  setupPopup('docs-btn', 'docs-popup', 'docs-wrap');
+
+  // Close on outside click
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (!target.closest('.hero__popup-wrap')) {
+      document.querySelectorAll('.hero__popup.is-visible').forEach((p) => p.classList.remove('is-visible'));
+    }
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.hero__popup.is-visible').forEach((p) => p.classList.remove('is-visible'));
+    }
+  });
+</script>
+
+</BaseLayout>
+
+<style>
+  /* Hero grid layout */
+  .hero__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+
+  /* Hero graphic */
+  .hero__graphic {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .hero__graphic {
+      display: block;
+    }
+  }
+
+  .hero__graphic-frame {
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    padding: 16px;
+    height: 500px;
+  }
+
+  .hero__graphic-canvas {
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-surface);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero__lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .hero__node {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    z-index: 2;
+  }
+
+  .hero__node--a {
+    top: 20%;
+    left: 20%;
+    width: 64px;
+    height: 64px;
+    background-color: var(--color-orange);
+    font-size: 1.25rem;
+  }
+
+  .hero__node--b {
+    top: 45%;
+    right: 20%;
+    width: 80px;
+    height: 80px;
+    border: 4px solid var(--color-orange);
+    background-color: var(--color-midnight);
+    font-size: 1.5rem;
+  }
+
+  .hero__node--c {
+    bottom: 20%;
+    left: 30%;
+    width: 48px;
+    height: 48px;
+    background-color: var(--color-white);
+    color: var(--color-midnight);
+    font-size: 1rem;
+  }
+
+  .hero__node--d {
+    top: 20%;
+    right: 30%;
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--color-white);
+    font-size: 0.875rem;
+  }
+
+  .hero__code {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(5, 10, 48, 0.9);
+    border-top: 2px solid var(--color-orange);
+    padding: 16px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    z-index: 3;
+  }
+
+  .hero__code-keyword {
+    color: var(--color-orange);
+  }
+
+  .hero__code-tag {
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  .hero__code-indent {
+    padding-left: 1.5rem;
+  }
+
+  /* Section header */
+  .section__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 32px;
+    margin-bottom: 64px;
+  }
+
+  .section__header-desc {
+    max-width: 28rem;
+    border-left: 2px solid rgba(255, 255, 255, 0.2);
+    padding-left: 16px;
+  }
+
+  /* Coming Soon popups */
+  .hero__popup-wrap {
+    position: relative;
+  }
+
+  .hero__popup {
+    position: absolute;
+    top: calc(100% + 16px);
+    left: 0;
+    z-index: 20;
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-orange);
+    padding: 24px;
+    min-width: 320px;
+    max-width: 380px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity var(--transition-fast), transform var(--transition-fast), visibility var(--transition-fast);
+    pointer-events: none;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4), 0 0 24px var(--color-orange-glow);
+  }
+
+  .hero__popup::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 24px;
+    width: 14px;
+    height: 14px;
+    background-color: var(--color-surface);
+    border-top: 2px solid var(--color-orange);
+    border-left: 2px solid var(--color-orange);
+    transform: rotate(45deg);
+  }
+
+  .hero__popup.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .hero__popup-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-orange);
+    margin-bottom: 12px;
+    background-color: var(--color-orange-glow);
+    padding: 4px 12px;
+  }
+
+  .hero__popup-text {
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin-bottom: 0;
+  }
+
+  .hero__popup-cta {
+    margin-top: 16px;
+    padding: 10px 20px;
+    font-size: 0.75rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+    .hero__grid {
+      grid-template-columns: 1fr;
+      padding-top: 40px;
+      padding-bottom: 40px;
+    }
+
+    .section__header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .hero__popup {
+      min-width: 280px;
+      max-width: calc(100vw - 48px);
+      left: 50%;
+      transform: translateX(-50%) translateY(-8px);
+    }
+
+    .hero__popup.is-visible {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .hero__popup::before {
+      left: calc(50% - 7px);
+    }
+  }
+
+  /* Cloud section cards */
+  .feature-grid--4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .cloud-card {
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-border);
+    padding: 32px 24px;
+    transition: border-color var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .cloud-card:hover {
+    border-color: rgba(255, 107, 0, 0.4);
+    box-shadow: 0 0 30px rgba(255, 107, 0, 0.08);
+  }
+
+  .cloud-card__icon-wrap {
+    width: 48px;
+    height: 48px;
+    background-color: rgba(255, 107, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-orange);
+    margin-bottom: 16px;
+    transition: background-color var(--transition-base), color var(--transition-base);
+  }
+
+  .cloud-card:hover .cloud-card__icon-wrap {
+    background-color: var(--color-orange);
+    color: var(--color-white);
+  }
+
+  .cloud-card__icon-wrap .material-symbols-outlined {
+    font-size: 1.5rem;
+  }
+
+  .cloud-card__title {
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 10px;
+  }
+
+  .cloud-card__desc {
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 1024px) {
+    .feature-grid--4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .feature-grid--4 {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

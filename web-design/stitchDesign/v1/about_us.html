@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>About Us - DomainMesh</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f2740d",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#221810",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col antialiased">
+    <!-- Header -->
+    <header
+        class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-6 lg:px-10 py-4 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-md">
+        <div class="flex items-center gap-4 text-primary">
+            <div class="size-6">
+                <svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                    <path clip-rule="evenodd"
+                        d="M12.0799 24L4 19.2479L9.95537 8.75216L18.04 13.4961L18.0446 4H29.9554L29.96 13.4961L38.0446 8.75216L44 19.2479L35.92 24L44 28.7521L38.0446 39.2479L29.96 34.5039L29.9554 44H18.0446L18.04 34.5039L9.95537 39.2479L4 28.7521L12.0799 24Z"
+                        fill="currentColor" fill-rule="evenodd"></path>
+                </svg>
+            </div>
+            <h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">Domain
+                Modeller</h2>
+        </div>
+        <div class="hidden lg:flex flex-1 justify-end gap-8">
+            <nav class="flex items-center gap-9">
+                <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors"
+                    href="#">Product</a>
+                <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors"
+                    href="#">Technology</a>
+                <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors"
+                    href="#">Use Cases</a>
+                <a class="text-primary font-bold text-sm leading-normal border-b-2 border-primary pb-1"
+                    href="#">About</a>
+            </nav>
+            <button
+                class="flex items-center justify-center overflow-hidden rounded-lg h-10 px-6 bg-primary text-white hover:bg-primary/90 transition-colors text-sm font-bold leading-normal tracking-[0.015em]">
+                <span>Get Started</span>
+            </button>
+        </div>
+        <div class="lg:hidden flex items-center">
+            <span class="material-symbols-outlined text-3xl cursor-pointer">menu</span>
+        </div>
+    </header>
+    <main class="flex-1 flex flex-col items-center w-full">
+        <div class="w-full max-w-[1200px] flex flex-col gap-16 pb-20">
+            <!-- Hero Section -->
+            <section class="w-full pt-8 px-4 lg:px-0">
+                <div class="flex min-h-[500px] flex-col gap-6 bg-cover bg-center bg-no-repeat rounded-xl lg:rounded-2xl items-start justify-end p-8 lg:p-16 relative overflow-hidden"
+                    data-alt="Abstract geometric tech nodes connecting"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCBEfMSNtLfsFt854OnK2O3ai0m7iftuytyxj1MopJ_9VMYCrdBrNCk-slrm8UUoqHPEdd2-2diSiuHu-lH8t3WGmaq3sQ-7tUNn7mUNbIpjxP-M0BnmrwAHtUaU8VEIk_BEC4SbVrmpJu80yidGuInLU65WZwXBNV-IyRH83m2ZZ3DoRBOBMI8-1uFaXJiNp4TDth-js_CVtab5iPR_LDO9_kls1OWZDTFAp2FBGW5csFkyclhV69PnemmSjw8I9-FG89iDtws8A3-");'>
+                    <div class="absolute inset-0 bg-slate-900/60 dark:bg-background-dark/80 mix-blend-multiply"></div>
+                    <div class="relative z-10 flex flex-col gap-4 max-w-3xl">
+                        <h1 class="text-white text-5xl lg:text-7xl font-black leading-tight tracking-tighter uppercase">
+                            Our Mission to Model the World
+                        </h1>
+                        <p class="text-slate-200 text-lg lg:text-xl font-medium leading-relaxed max-w-2xl">
+                            Building the engine that powers the next generation of spatial computing and digital twins.
+                            We transform physical reality into interactive, scalable digital ecosystems.
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <!-- Vision & Story Section -->
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-12 px-6 lg:px-8">
+                <div class="flex flex-col gap-4">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="material-symbols-outlined text-primary text-3xl">visibility</span>
+                        <h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">The Vision</h2>
+                    </div>
+                    <p class="text-slate-600 dark:text-slate-300 text-lg leading-relaxed">
+                        To create a seamless bridge between the physical and digital worlds, enabling unprecedented
+                        scalability, simulation, and innovation across every industry. We envision a future where
+                        complex systems can be modeled, understood, and optimized with total clarity.
+                    </p>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="material-symbols-outlined text-primary text-3xl">history_edu</span>
+                        <h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Our Story</h2>
+                    </div>
+                    <p class="text-slate-600 dark:text-slate-300 text-lg leading-relaxed">
+                        Born from a frustration with fragmented spatial data, DomainMesh was founded by a team of
+                        engineers and architects determined to build a unified engine. What started as a rendering
+                        experiment quickly evolved into a comprehensive platform for enterprise-grade digital twins.
+                    </p>
+                </div>
+            </section>
+            <!-- Core Values Grid -->
+            <section class="px-6 lg:px-8 flex flex-col gap-10">
+                <div class="flex flex-col gap-2 items-center text-center">
+                    <h2 class="text-4xl font-black tracking-tight text-slate-900 dark:text-white uppercase">Core Values
+                    </h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-lg">The principles that drive our engine forward.
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Value Card 1 -->
+                    <div
+                        class="bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl p-8 flex flex-col items-start gap-4 hover:border-primary/50 transition-colors group">
+                        <div
+                            class="p-3 bg-primary/10 rounded-lg text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-3xl">layers</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Scalability</h3>
+                        <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                            Built to handle massive datasets without breaking a sweat. From single buildings to entire
+                            smart cities, our architecture scales effortlessly.
+                        </p>
+                    </div>
+                    <!-- Value Card 2 -->
+                    <div
+                        class="bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl p-8 flex flex-col items-start gap-4 hover:border-primary/50 transition-colors group">
+                        <div
+                            class="p-3 bg-primary/10 rounded-lg text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-3xl">bolt</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Speed</h3>
+                        <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                            Real-time rendering and data processing are non-negotiable. We optimize every layer of the
+                            stack to ensure latency is a thing of the past.
+                        </p>
+                    </div>
+                    <!-- Value Card 3 -->
+                    <div
+                        class="bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl p-8 flex flex-col items-start gap-4 hover:border-primary/50 transition-colors group">
+                        <div
+                            class="p-3 bg-primary/10 rounded-lg text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-3xl">tune</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Simplicity</h3>
+                        <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                            Complex underlying technology presented through an intuitive, clean interface. We believe
+                            powerful tools should be accessible, not overwhelming.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <!-- Simple Footer -->
+    <footer
+        class="border-t border-slate-200 dark:border-slate-800 py-8 text-center text-slate-500 dark:text-slate-400 text-sm">
+        <p>© 2024 DomainMesh Inc. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

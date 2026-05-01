@@ -1,0 +1,23 @@
+---
+interface Props {
+  icon: string;
+  title: string;
+  description: string;
+  detail?: string;
+  exploreText?: string;
+}
+
+const { icon, title, description, detail = '', exploreText = 'Explore' } = Astro.props;
+---
+
+<div class="feature-card" data-detail={detail} data-title={title} data-icon={icon} role="button" tabindex="0">
+  <div class="feature-card__icon">
+    <span class="material-symbols-outlined">{icon}</span>
+  </div>
+  <h3 class="feature-card__title">{title}</h3>
+  <p class="feature-card__desc">{description}</p>
+  <div class="feature-card__link">
+    {exploreText}
+    <span class="material-symbols-outlined" style="font-size: 0.875rem;">arrow_forward</span>
+  </div>
+</div>
