@@ -37,9 +37,21 @@ const cloudFeatures = [
   { icon: 'public', titleKey: 'cloud.european.title', descKey: 'cloud.european.desc' },
   { icon: 'code', titleKey: 'cloud.opensource.title', descKey: 'cloud.opensource.desc' },
 ];
+const valueFeatures = [
+  { icon: 'build_circle', titleKey: 'value.card1.title', descKey: 'value.card1.desc' },
+  { icon: 'verified_user', titleKey: 'value.card2.title', descKey: 'value.card2.desc' },
+  { icon: 'rocket_launch', titleKey: 'value.card3.title', descKey: 'value.card3.desc' },
+  { icon: 'lock', titleKey: 'value.card4.title', descKey: 'value.card4.desc' },
+];
+const howItWorksSteps = [
+  { icon: 'edit_note', titleKey: 'howitworks.step1.title', descKey: 'howitworks.step1.desc' },
+  { icon: 'hub', titleKey: 'howitworks.step2.title', descKey: 'howitworks.step2.desc' },
+  { icon: 'shield', titleKey: 'howitworks.step3.title', descKey: 'howitworks.step3.desc' },
+  { icon: 'settings_suggest', titleKey: 'howitworks.step4.title', descKey: 'howitworks.step4.desc' },
+];
 ---
 
-<BaseLayout title={t(lang, 'nav.home')} lang={lang} description="DomainMesh — Design complex data systems. Manage and migrate them seamlessly. Keep your application development quick, flexible, and sovereign.">
+<BaseLayout title={t(lang, 'nav.home')} lang={lang} description="DomainMesh — Model your organisation's data, rules, relationships, and workflows in one place. Governed infrastructure you can trust, extend, and audit.">
 
   <!-- Hero Section -->
   <section class="hero graphic-grid">
@@ -59,8 +71,8 @@ const cloudFeatures = [
 
         <h1 class="hero__title">
           {t(lang, 'hero.title.line1')}<br />
-          <span class="hero__title--outline">{t(lang, 'hero.title.line2')}</span><br />
-          {t(lang, 'hero.title.line3')}
+          {t(lang, 'hero.title.line2')}<br />
+          <span class="hero__title--outline">{t(lang, 'hero.title.line3')}</span>
         </h1>
 
         <p class="hero__body">
@@ -68,35 +80,13 @@ const cloudFeatures = [
         </p>
 
         <div class="hero__buttons">
-          <div class="hero__popup-wrap" id="getstarted-wrap">
-            <button type="button" class="btn btn-primary" id="getstarted-btn">
-              {t(lang, 'hero.cta.primary')}
-              <span class="material-symbols-outlined" style="font-size: 1.25rem;">arrow_forward</span>
-            </button>
-            <div class="hero__popup" id="getstarted-popup">
-              <div class="hero__popup-badge">
-                <span class="material-symbols-outlined" style="font-size: 1rem;">schedule</span>
-                {t(lang, 'hero.comingSoon')}
-              </div>
-              <p class="hero__popup-text">{t(lang, 'hero.comingSoon.getStarted')}</p>
-              <button type="button" class="btn btn-primary hero__popup-cta" data-contact-open>
-                {t(lang, 'hero.comingSoon.contact')}
-                <span class="material-symbols-outlined" style="font-size: 1.125rem;">mail</span>
-              </button>
-            </div>
-          </div>
-          <div class="hero__popup-wrap" id="docs-wrap">
-            <button type="button" class="btn btn-secondary" id="docs-btn">
-              {t(lang, 'hero.cta.secondary')}
-            </button>
-            <div class="hero__popup" id="docs-popup">
-              <div class="hero__popup-badge">
-                <span class="material-symbols-outlined" style="font-size: 1rem;">schedule</span>
-                {t(lang, 'hero.comingSoon')}
-              </div>
-              <p class="hero__popup-text">{t(lang, 'hero.comingSoon.docs')}</p>
-            </div>
-          </div>
+          <button type="button" class="btn btn-primary" data-contact-open>
+            {t(lang, 'hero.cta.primary')}
+            <span class="material-symbols-outlined" style="font-size: 1.25rem;">arrow_forward</span>
+          </button>
+          <a href="#howitworks" class="btn btn-secondary">
+            {t(lang, 'hero.cta.secondary')}
+          </a>
         </div>
       </div>
 
@@ -118,12 +108,115 @@ const cloudFeatures = [
             </svg>
             <!-- Code snippet overlay -->
             <div class="hero__code">
-              <div><span class="hero__code-keyword">type</span> Node struct {'{'}</div>
-              <div class="hero__code-indent">ID string <span class="hero__code-tag">{"`"}json:"id"{"`"}</span></div>
-              <div class="hero__code-indent">Labels []string <span class="hero__code-tag">{"`"}json:"labels"{"`"}</span></div>
-              <div>{'}'}</div>
+              <div><span class="hero__code-keyword">nodes</span>:</div>
+              <div class="hero__code-indent"><span class="hero__code-keyword">Store</span>:</div>
+              <div class="hero__code-indent2"><span class="hero__code-tag">fields</span>:</div>
+              <div class="hero__code-indent3">name: {'{'} <span class="hero__code-keyword">type</span>: text {'}'}</div>
+              <div class="hero__code-indent3">country: {'{'} <span class="hero__code-keyword">type</span>: language {'}'}</div>
+              <div class="hero__code-indent3">budget: {'{'} <span class="hero__code-keyword">type</span>: money {'}'}</div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Business Value Section -->
+  <section class="section section--surface" id="value">
+    <div class="container">
+      <div class="section__header">
+        <div>
+          <div class="section-label">
+            <div class="section-label__line"></div>
+            <span class="section-label__text">{t(lang, 'value.label')}</span>
+          </div>
+          <h2>
+            {t(lang, 'value.title')}<br />
+            <span class="text-orange">{t(lang, 'value.titleAccent')}</span>
+          </h2>
+        </div>
+        <p class="section__header-desc">
+          {t(lang, 'value.desc')}
+        </p>
+      </div>
+
+      <div class="feature-grid feature-grid--4">
+        {valueFeatures.map((f) => (
+          <div class="cloud-card">
+            <div class="cloud-card__icon-wrap">
+              <span class="material-symbols-outlined">{f.icon}</span>
+            </div>
+            <h3 class="cloud-card__title">{t(lang, f.titleKey)}</h3>
+            <p class="cloud-card__desc">{t(lang, f.descKey)}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="section" id="howitworks">
+    <div class="container">
+      <div class="section__header">
+        <div>
+          <div class="section-label">
+            <div class="section-label__line"></div>
+            <span class="section-label__text">{t(lang, 'howitworks.label')}</span>
+          </div>
+          <h2>
+            {t(lang, 'howitworks.title')}<br />
+            <span class="text-orange">{t(lang, 'howitworks.titleAccent')}</span>
+          </h2>
+        </div>
+        <p class="section__header-desc">
+          {t(lang, 'howitworks.desc')}
+        </p>
+      </div>
+
+      <div class="howitworks-layout">
+        <!-- YAML Example -->
+        <div class="howitworks-code">
+          <div class="howitworks-code__header">
+            <span class="howitworks-code__dot"></span>
+            <span class="howitworks-code__dot"></span>
+            <span class="howitworks-code__dot"></span>
+            <span class="howitworks-code__filename">domain.yaml</span>
+          </div>
+          <pre class="howitworks-code__body"><code><span class="code-kw">nodes</span>:
+  <span class="code-type">Store</span>:
+    <span class="code-key">composed_of</span>: [<span class="code-type">BaseAuditFields</span>]
+    <span class="code-key">fields</span>:
+      name:     {'{'} <span class="code-kw">type</span>: <span class="code-val">text</span>,   <span class="code-kw">required</span>: <span class="code-val">true</span> {'}'}
+      country:  {'{'} <span class="code-kw">type</span>: <span class="code-val">language</span>              {'}'}
+      status:   {'{'} <span class="code-kw">type</span>: <span class="code-val">options_single</span>       {'}'}
+      budget:   {'{'} <span class="code-kw">type</span>: <span class="code-val">money</span>                {'}'}
+      phone:    {'{'} <span class="code-kw">type</span>: <span class="code-val">phone</span>                {'}'}
+      active:   {'{'} <span class="code-kw">type</span>: <span class="code-val">boolean</span>              {'}'}
+
+  <span class="code-type">Supplier</span>:
+    <span class="code-key">fields</span>:
+      name:     {'{'} <span class="code-kw">type</span>: <span class="code-val">text</span>,   <span class="code-kw">required</span>: <span class="code-val">true</span> {'}'}
+      rating:   {'{'} <span class="code-kw">type</span>: <span class="code-val">number</span>               {'}'}
+
+<span class="code-kw">edges</span>:
+  <span class="code-type">SuppliesTo</span>:
+    <span class="code-key">from</span>: <span class="code-type">Supplier</span>
+    <span class="code-key">to</span>:   <span class="code-type">Store</span></code></pre>
+        </div>
+
+        <!-- Steps -->
+        <div class="howitworks-steps">
+          {howItWorksSteps.map((step) => (
+            <div class="howitworks-step">
+              <div class="howitworks-step__icon-wrap">
+                <span class="material-symbols-outlined">{step.icon}</span>
+              </div>
+              <div>
+                <h3 class="howitworks-step__title">{t(lang, step.titleKey)}</h3>
+                <p class="howitworks-step__desc">{t(lang, step.descKey)}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -230,41 +323,8 @@ const cloudFeatures = [
 
   <FeatureModal />
 
-<script>
-  // Coming Soon popup toggle
-  function setupPopup(btnId: string, popupId: string, wrapId: string) {
-    const btn = document.getElementById(btnId);
-    const popup = document.getElementById(popupId);
-    const wrap = document.getElementById(wrapId);
-    if (!btn || !popup || !wrap) return;
 
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isOpen = popup.classList.contains('is-visible');
-      // Close all popups first
-      document.querySelectorAll('.hero__popup.is-visible').forEach((p) => p.classList.remove('is-visible'));
-      if (!isOpen) popup.classList.add('is-visible');
-    });
-  }
 
-  setupPopup('getstarted-btn', 'getstarted-popup', 'getstarted-wrap');
-  setupPopup('docs-btn', 'docs-popup', 'docs-wrap');
-
-  // Close on outside click
-  document.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement;
-    if (!target.closest('.hero__popup-wrap')) {
-      document.querySelectorAll('.hero__popup.is-visible').forEach((p) => p.classList.remove('is-visible'));
-    }
-  });
-
-  // Close on Escape
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      document.querySelectorAll('.hero__popup.is-visible').forEach((p) => p.classList.remove('is-visible'));
-    }
-  });
-</script>
 
 </BaseLayout>
 
@@ -386,6 +446,14 @@ const cloudFeatures = [
     padding-left: 1.5rem;
   }
 
+  .hero__code-indent2 {
+    padding-left: 3rem;
+  }
+
+  .hero__code-indent3 {
+    padding-left: 4.5rem;
+  }
+
   /* Section header */
   .section__header {
     display: flex;
@@ -401,76 +469,103 @@ const cloudFeatures = [
     padding-left: 16px;
   }
 
-  /* Coming Soon popups */
-  .hero__popup-wrap {
-    position: relative;
+  /* How It Works */
+  .howitworks-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
   }
 
-  .hero__popup {
-    position: absolute;
-    top: calc(100% + 16px);
-    left: 0;
-    z-index: 20;
+  .howitworks-code {
     background-color: var(--color-surface);
-    border: 2px solid var(--color-orange);
-    padding: 24px;
-    min-width: 320px;
-    max-width: 380px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-8px);
-    transition: opacity var(--transition-fast), transform var(--transition-fast), visibility var(--transition-fast);
-    pointer-events: none;
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4), 0 0 24px var(--color-orange-glow);
+    border: 2px solid var(--color-border);
+    overflow: hidden;
   }
 
-  .hero__popup::before {
-    content: '';
-    position: absolute;
-    top: -8px;
-    left: 24px;
-    width: 14px;
-    height: 14px;
-    background-color: var(--color-surface);
-    border-top: 2px solid var(--color-orange);
-    border-left: 2px solid var(--color-orange);
-    transform: rotate(45deg);
-  }
-
-  .hero__popup.is-visible {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-
-  .hero__popup-badge {
-    display: inline-flex;
+  .howitworks-code__header {
+    display: flex;
     align-items: center;
     gap: 6px;
-    font-family: var(--font-heading);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--color-orange);
-    margin-bottom: 12px;
-    background-color: var(--color-orange-glow);
-    padding: 4px 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--color-border);
+    background-color: rgba(255, 255, 255, 0.03);
   }
 
-  .hero__popup-text {
+  .howitworks-code__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .howitworks-code__filename {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    margin-left: 8px;
+  }
+
+  .howitworks-code__body {
+    padding: 20px 24px;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    overflow-x: auto;
+    margin: 0;
+  }
+
+  .code-kw { color: var(--color-orange); }
+  .code-type { color: #93c5fd; }
+  .code-key { color: #a5b4fc; }
+  .code-val { color: #86efac; }
+
+  .howitworks-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .howitworks-step {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .howitworks-step__icon-wrap {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    background-color: rgba(255, 107, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-orange);
+    transition: background-color var(--transition-base), color var(--transition-base);
+  }
+
+  .howitworks-step:hover .howitworks-step__icon-wrap {
+    background-color: var(--color-orange);
+    color: var(--color-white);
+  }
+
+  .howitworks-step__icon-wrap .material-symbols-outlined {
+    font-size: 1.5rem;
+  }
+
+  .howitworks-step__title {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+
+  .howitworks-step__desc {
     color: var(--color-text-secondary);
     font-size: 0.875rem;
     line-height: 1.6;
-    margin-bottom: 0;
-  }
-
-  .hero__popup-cta {
-    margin-top: 16px;
-    padding: 10px 20px;
-    font-size: 0.75rem;
-    width: 100%;
-    justify-content: center;
   }
 
   @media (max-width: 768px) {
@@ -485,19 +580,8 @@ const cloudFeatures = [
       align-items: flex-start;
     }
 
-    .hero__popup {
-      min-width: 280px;
-      max-width: calc(100vw - 48px);
-      left: 50%;
-      transform: translateX(-50%) translateY(-8px);
-    }
-
-    .hero__popup.is-visible {
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .hero__popup::before {
-      left: calc(50% - 7px);
+    .howitworks-layout {
+      grid-template-columns: 1fr;
     }
   }
 

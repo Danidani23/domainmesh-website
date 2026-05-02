@@ -52,7 +52,7 @@ export async function sendVerificationEmail(
   );
 
   const res = await fetch(
-    `https://api.mailgun.net/v3/${domain}/messages`,
+    `https://api.eu.mailgun.net/v3/${domain}/messages`,
     {
       method: 'POST',
       headers: {
@@ -132,7 +132,7 @@ export async function sendContactNotification(
   );
 
   const res = await fetch(
-    `https://api.mailgun.net/v3/${domain}/messages`,
+    `https://api.eu.mailgun.net/v3/${domain}/messages`,
     {
       method: 'POST',
       headers: {
