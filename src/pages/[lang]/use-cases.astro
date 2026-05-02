@@ -23,7 +23,7 @@ const useCases = [
 ];
 ---
 
-<BaseLayout title={t(lang, 'nav.useCases')} lang={lang} description="DomainMesh — Real-world applications across industries.">
+<BaseLayout title={t(lang, 'nav.useCases')} lang={lang} description="DomainMesh — Real-world applications of governed domain modelling across industries.">
 
   <!-- Page Hero -->
   <section class="page-hero graphic-grid">
@@ -44,9 +44,57 @@ const useCases = [
     </div>
   </section>
 
-  <!-- Use Cases Grid -->
+  <!-- Flagship Use Case -->
   <section class="section section--surface">
     <div class="container">
+      <div class="section-label" style="margin-bottom: 32px;">
+        <div class="section-label__line"></div>
+        <span class="section-label__text">{t(lang, 'usecases.flagship.label')}</span>
+      </div>
+
+      <div class="flagship-card">
+        <div class="flagship-card__icon-wrap">
+          <span class="material-symbols-outlined">verified_user</span>
+        </div>
+        <h2 class="flagship-card__title">{t(lang, 'usecases.enterprise.title')}</h2>
+        <p class="flagship-card__desc">{t(lang, 'usecases.enterprise.desc')}</p>
+
+        <div class="flagship-card__detail">
+          <p class="flagship-card__detail-intro">DomainMesh helps governance, data, and platform teams:</p>
+          <ul class="flagship-card__list">
+            <li>Define shared business entities and relationships across departments</li>
+            <li>Make ownership, lineage, access rules, and validation explicit</li>
+            <li>Keep schema and data changes versioned and auditable</li>
+            <li>Reduce dependency on scattered spreadsheets, documents, and custom integrations</li>
+            <li>Support regulated environments with cloud-agnostic deployment options</li>
+            <li>Give technical teams a governed foundation for APIs, workflows, and automation</li>
+          </ul>
+        </div>
+
+        <button data-contact-open class="btn btn-primary flagship-card__cta">
+          {t(lang, 'usecases.enterprise.cta')}
+          <span class="material-symbols-outlined" style="font-size: 1.25rem;">arrow_forward</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- More Industries Grid -->
+  <section class="section">
+    <div class="container">
+      <div class="section__header">
+        <div>
+          <div class="section-label">
+            <div class="section-label__line"></div>
+            <span class="section-label__text">{t(lang, 'usecases.more.label')}</span>
+          </div>
+          <h2>
+            {t(lang, 'usecases.more.title')}<br />
+            <span class="text-orange">{t(lang, 'usecases.more.titleAccent')}</span>
+          </h2>
+        </div>
+      </div>
+
       <div class="usecase-grid">
         {useCases.map((uc) => (
           <div class="usecase-card">
@@ -101,19 +149,120 @@ const useCases = [
     max-width: 38rem;
   }
 
+  /* Section header */
+  .section__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 32px;
+    margin-bottom: 64px;
+  }
+
+  /* Flagship Card */
+  .flagship-card {
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-orange);
+    padding: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .flagship-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-orange), transparent);
+  }
+
+  .flagship-card__icon-wrap {
+    width: 64px;
+    height: 64px;
+    background-color: rgba(255, 107, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-orange);
+    margin-bottom: 24px;
+  }
+
+  .flagship-card__icon-wrap .material-symbols-outlined {
+    font-size: 2rem;
+  }
+
+  .flagship-card__title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 16px;
+  }
+
+  .flagship-card__desc {
+    color: var(--color-text-secondary);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    max-width: 48rem;
+    margin-bottom: 32px;
+  }
+
+  .flagship-card__detail {
+    margin-bottom: 32px;
+  }
+
+  .flagship-card__detail-intro {
+    font-family: var(--font-heading);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-orange);
+    margin-bottom: 16px;
+  }
+
+  .flagship-card__list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 32px;
+  }
+
+  .flagship-card__list li {
+    position: relative;
+    padding-left: 20px;
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  .flagship-card__list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--color-orange);
+    font-weight: 700;
+  }
+
+  .flagship-card__cta {
+    margin-top: 8px;
+  }
+
+  /* Use Case Grid */
   .usecase-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 32px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
   }
 
   .usecase-card {
     background-color: var(--color-surface);
     border: 2px solid var(--color-border);
-    padding: 40px 32px;
+    padding: 32px 24px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
     transition: border-color var(--transition-base), box-shadow var(--transition-base);
   }
 
@@ -129,8 +278,8 @@ const useCases = [
   }
 
   .usecase-card__icon-wrap {
-    width: 56px;
-    height: 56px;
+    width: 48px;
+    height: 48px;
     background-color: rgba(255, 107, 0, 0.15);
     display: flex;
     align-items: center;
@@ -144,11 +293,12 @@ const useCases = [
   }
 
   .usecase-card__icon-wrap .material-symbols-outlined {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
   }
 
   .usecase-card__arrow {
     color: rgba(255, 255, 255, 0.15);
+    font-size: 1.25rem;
     transition: color var(--transition-base);
   }
 
@@ -158,19 +308,38 @@ const useCases = [
 
   .usecase-card__title {
     font-family: var(--font-heading);
-    font-size: 1.375rem;
+    font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 0.03em;
   }
 
   .usecase-card__desc {
     color: var(--color-text-secondary);
-    font-size: 0.9375rem;
+    font-size: 0.8125rem;
     line-height: 1.6;
+  }
+
+  @media (max-width: 1024px) {
+    .usecase-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   @media (max-width: 768px) {
     .usecase-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .section__header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .flagship-card {
+      padding: 32px 24px;
+    }
+
+    .flagship-card__list {
       grid-template-columns: 1fr;
     }
   }
