@@ -186,9 +186,16 @@ The following hostnames must be registered for the Turnstile widget to work:
 
 Email delivery for verification codes and contact notifications. Free tier: 100 emails/day.
 
+> **Important:** Our Mailgun account is in the **EU region**. The API endpoint in `mailgun.ts` must use `api.eu.mailgun.net` (not `api.mailgun.net`). Using the US endpoint returns `401 Forbidden`.
+
 **Setup:**
-1. Create a Mailgun account and verify your sending domain
-2. Generate an API key and set it as `MAILGUN_API_KEY` in Cloudflare Dashboard
+1. Create a Mailgun account (EU region) and verify your sending domain
+2. Generate a **Private API key** (starts with `key-...`) and set it as `MAILGUN_API_KEY` in Cloudflare Dashboard
+3. Ensure SPF, DKIM, and MX records are verified (green) in Mailgun → Sending Domains
+4. Add a DMARC DNS record to improve deliverability and avoid spam classification:
+   ```
+   _dmarc.domainmesh.io  TXT  "v=DMARC1; p=none; rua=mailto:hello@domainmesh.io"
+   ```
 
 ### Local Development
 
