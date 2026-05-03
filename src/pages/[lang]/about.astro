@@ -12,14 +12,14 @@ export function getStaticPaths() {
 const { lang } = Astro.params as { lang: Lang };
 
 const values = [
-  { icon: 'layers',  titleKey: 'about.scalability.title', descKey: 'about.scalability.desc' },
-  { icon: 'bolt',    titleKey: 'about.speed.title',       descKey: 'about.speed.desc' },
-  { icon: 'tune',    titleKey: 'about.simplicity.title',  descKey: 'about.simplicity.desc' },
-  { icon: 'shield',  titleKey: 'about.sovereignty.title', descKey: 'about.sovereignty.desc' },
+  { icon: 'code',    titleKey: 'about.openness.title',    descKey: 'about.openness.desc' },
+  { icon: 'shield',  titleKey: 'about.governance.title',   descKey: 'about.governance.desc' },
+  { icon: 'tune',    titleKey: 'about.simplicity.title',   descKey: 'about.simplicity.desc' },
+  { icon: 'public',  titleKey: 'about.sovereignty.title',  descKey: 'about.sovereignty.desc' },
 ];
 ---
 
-<BaseLayout title={t(lang, 'nav.about')} lang={lang} description="DomainMesh — Our mission to model the world.">
+<BaseLayout title={t(lang, 'nav.about')} lang={lang} description="DomainMesh — Built in Switzerland for governed enterprise systems. Graph-native domain modelling on open-source technology.">
 
   <!-- Page Hero -->
   <section class="page-hero graphic-grid">
@@ -77,6 +77,40 @@ const values = [
             <p class="value-card__desc">{t(lang, v.descKey)}</p>
           </div>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Current Stage -->
+  <section class="section section--surface">
+    <div class="container">
+      <div class="about-two-col">
+        <div class="about-block">
+          <div class="about-block__header">
+            <span class="material-symbols-outlined about-block__icon">rocket_launch</span>
+            <h2>{t(lang, 'about.currentStage.title')}</h2>
+          </div>
+          <p class="about-block__text">{t(lang, 'about.currentStage.desc')}</p>
+          <p class="about-block__text" style="margin-top: 16px; font-style: italic; color: var(--color-text-secondary);">{t(lang, 'about.currentStage.founderNote')}</p>
+        </div>
+        <div class="about-block">
+          <div class="about-block__header">
+            <span class="material-symbols-outlined about-block__icon">handshake</span>
+            <h2>{t(lang, 'about.designPartners.title')}</h2>
+          </div>
+          <ul class="about-block__list">
+            <li>{t(lang, 'about.designPartners.item1')}</li>
+            <li>{t(lang, 'about.designPartners.item2')}</li>
+            <li>{t(lang, 'about.designPartners.item3')}</li>
+            <li>{t(lang, 'about.designPartners.item4')}</li>
+          </ul>
+          <div style="margin-top: 24px;">
+            <button type="button" class="btn btn-primary" data-contact-open>
+              {t(lang, 'diagnostic.cta')}
+              <span class="material-symbols-outlined" style="font-size: 1.25rem;">arrow_forward</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -141,6 +175,31 @@ const values = [
     color: var(--color-text-secondary);
     font-size: 1.0625rem;
     line-height: 1.7;
+  }
+
+  .about-block__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .about-block__list li {
+    color: var(--color-text-secondary);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    padding-left: 24px;
+    position: relative;
+  }
+
+  .about-block__list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 11px;
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-orange);
+    border-radius: 50%;
   }
 
   .values-grid {

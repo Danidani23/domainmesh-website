@@ -51,7 +51,7 @@ const howItWorksSteps = [
 ];
 ---
 
-<BaseLayout title={t(lang, 'nav.home')} lang={lang} description="DomainMesh — Model your organisation's data, rules, relationships, and workflows in one place. Governed infrastructure you can trust, extend, and audit.">
+<BaseLayout title={t(lang, 'nav.home')} lang={lang} description="DomainMesh — Governed domain modelling for enterprise architecture, data governance, and platform teams. Define entities, relationships, rules, and workflows once — then power APIs, automation, auditability, and governed delivery.">
 
   <!-- Hero Section -->
   <section class="hero graphic-grid">
@@ -84,10 +84,12 @@ const howItWorksSteps = [
             {t(lang, 'hero.cta.primary')}
             <span class="material-symbols-outlined" style="font-size: 1.25rem;">arrow_forward</span>
           </button>
-          <a href="#howitworks" class="btn btn-secondary">
+          <a href={`/${lang}/examples/domain-yaml`} class="btn btn-secondary">
             {t(lang, 'hero.cta.secondary')}
           </a>
         </div>
+
+        <p class="hero__trustline">{t(lang, 'hero.trustline')}</p>
       </div>
 
       <!-- Hero Graphic -->
@@ -109,11 +111,11 @@ const howItWorksSteps = [
             <!-- Code snippet overlay -->
             <div class="hero__code">
               <div><span class="hero__code-keyword">nodes</span>:</div>
-              <div class="hero__code-indent"><span class="hero__code-keyword">Store</span>:</div>
+              <div class="hero__code-indent"><span class="hero__code-keyword">BusinessEntity</span>:</div>
               <div class="hero__code-indent2"><span class="hero__code-tag">fields</span>:</div>
               <div class="hero__code-indent3">name: {'{'} <span class="hero__code-keyword">type</span>: text {'}'}</div>
-              <div class="hero__code-indent3">country: {'{'} <span class="hero__code-keyword">type</span>: language {'}'}</div>
-              <div class="hero__code-indent3">budget: {'{'} <span class="hero__code-keyword">type</span>: money {'}'}</div>
+              <div class="hero__code-indent3">owner: {'{'} <span class="hero__code-keyword">type</span>: user {'}'}</div>
+              <div class="hero__code-indent3">data_classification: {'{'} <span class="hero__code-keyword">type</span>: options_single {'}'}</div>
             </div>
           </div>
         </div>
@@ -183,25 +185,30 @@ const howItWorksSteps = [
             <span class="howitworks-code__filename">domain.yaml</span>
           </div>
           <pre class="howitworks-code__body"><code><span class="code-kw">nodes</span>:
-  <span class="code-type">Store</span>:
-    <span class="code-key">composed_of</span>: [<span class="code-type">BaseAuditFields</span>]
+  <span class="code-type">BusinessEntity</span>:
     <span class="code-key">fields</span>:
-      name:     {'{'} <span class="code-kw">type</span>: <span class="code-val">text</span>,   <span class="code-kw">required</span>: <span class="code-val">true</span> {'}'}
-      country:  {'{'} <span class="code-kw">type</span>: <span class="code-val">language</span>              {'}'}
-      status:   {'{'} <span class="code-kw">type</span>: <span class="code-val">options_single</span>       {'}'}
-      budget:   {'{'} <span class="code-kw">type</span>: <span class="code-val">money</span>                {'}'}
-      phone:    {'{'} <span class="code-kw">type</span>: <span class="code-val">phone</span>                {'}'}
-      active:   {'{'} <span class="code-kw">type</span>: <span class="code-val">boolean</span>              {'}'}
+      name:                {'{'} <span class="code-kw">type</span>: <span class="code-val">text</span>,   <span class="code-kw">required</span>: <span class="code-val">true</span> {'}'}
+      owner:               {'{'} <span class="code-kw">type</span>: <span class="code-val">user</span>,   <span class="code-kw">required</span>: <span class="code-val">true</span> {'}'}
+      data_classification: {'{'} <span class="code-kw">type</span>: <span class="code-val">options_single</span>       {'}'}
+      system_of_record:    {'{'} <span class="code-kw">type</span>: <span class="code-val">text</span>                {'}'}
 
-  <span class="code-type">Supplier</span>:
+  <span class="code-type">Policy</span>:
     <span class="code-key">fields</span>:
-      name:     {'{'} <span class="code-kw">type</span>: <span class="code-val">text</span>,   <span class="code-kw">required</span>: <span class="code-val">true</span> {'}'}
-      rating:   {'{'} <span class="code-kw">type</span>: <span class="code-val">number</span>               {'}'}
+      title:       {'{'} <span class="code-kw">type</span>: <span class="code-val">text</span>,   <span class="code-kw">required</span>: <span class="code-val">true</span> {'}'}
+      effective:   {'{'} <span class="code-kw">type</span>: <span class="code-val">date</span>                {'}'}
+
+  <span class="code-type">AccessRole</span>:
+    <span class="code-key">fields</span>:
+      role_name:   {'{'} <span class="code-kw">type</span>: <span class="code-val">text</span>,   <span class="code-kw">required</span>: <span class="code-val">true</span> {'}'}
+      permission:  {'{'} <span class="code-kw">type</span>: <span class="code-val">options_single</span>       {'}'}
 
 <span class="code-kw">edges</span>:
-  <span class="code-type">SuppliesTo</span>:
-    <span class="code-key">from</span>: <span class="code-type">Supplier</span>
-    <span class="code-key">to</span>:   <span class="code-type">Store</span></code></pre>
+  <span class="code-type">GovernedBy</span>:
+    <span class="code-key">from</span>: <span class="code-type">BusinessEntity</span>
+    <span class="code-key">to</span>:   <span class="code-type">Policy</span>
+  <span class="code-type">AccessibleBy</span>:
+    <span class="code-key">from</span>: <span class="code-type">BusinessEntity</span>
+    <span class="code-key">to</span>:   <span class="code-type">AccessRole</span></code></pre>
         </div>
 
         <!-- Steps -->

@@ -42,6 +42,18 @@ const version = isDev ? 'DEV' : `v${packageJson.version}`;
         <a href={getLocalizedPath(lang, '/terms')} class="footer__nav-link">{t(lang, 'footer.terms')}</a>
         <a href={getLocalizedPath(lang, '/imprint')} class="footer__nav-link">{t(lang, 'footer.imprint')}</a>
       </div>
+
+      <!-- Connect Column -->
+      <div class="footer__nav">
+        <p class="footer__nav-title">Connect</p>
+        <a href="https://www.linkedin.com/in/daniel-molnar-peak/" target="_blank" rel="noopener noreferrer" class="footer__nav-link footer__nav-link--linkedin">
+          <span class="material-symbols-outlined" style="font-size: 1rem; vertical-align: middle;">open_in_new</span>
+          {t(lang, 'footer.linkedin')}
+        </a>
+        <button data-contact-open class="footer__nav-link footer__nav-link--btn">
+          {t(lang, 'footer.verifiedContact')}
+        </button>
+      </div>
     </div>
 
     <!-- Bottom Bar -->
@@ -156,6 +168,21 @@ const version = isDev ? 'DEV' : `v${packageJson.version}`;
 
   .footer__nav-link:hover {
     color: var(--color-white);
+  }
+
+  .footer__nav-link--btn {
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: var(--font-body);
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .footer__nav-link--linkedin {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
   }
 
   /* Bottom Bar */

@@ -1,0 +1,187 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import type { Lang } from '../../../i18n/ui';
+import { t, languages } from '../../../i18n/ui';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+---
+
+<BaseLayout
+  title={t(lang, 'examples.domainYaml.title')}
+  lang={lang}
+  description="See how a governed domain model is defined in YAML — nodes, edges, fields, ownership, and access control. A sample domain.yaml for enterprise data governance."
+>
+  <section class="section">
+    <div class="container">
+      <div class="section__header" style="margin-bottom: 48px;">
+        <div>
+          <div class="section-label">
+            <div class="section-label__line"></div>
+            <span class="section-label__text">domain.yaml</span>
+          </div>
+          <h1>
+            {t(lang, 'examples.domainYaml.title')}<br />
+          </h1>
+        </div>
+        <p class="section__header-desc">
+          {t(lang, 'examples.domainYaml.subtitle')}
+        </p>
+      </div>
+
+      <!-- Stage Disclaimer -->
+      <div class="example-stage-note">
+        <span class="material-symbols-outlined" style="font-size: 1.25rem; color: var(--color-orange);">info</span>
+        <p>{t(lang, 'examples.domainYaml.stageNote')}</p>
+      </div>
+
+      <!-- YAML Code Block -->
+      <div class="example-code-block">
+        <div class="howitworks-code">
+          <div class="howitworks-code__header">
+            <span class="howitworks-code__dot"></span>
+            <span class="howitworks-code__dot"></span>
+            <span class="howitworks-code__dot"></span>
+            <span class="howitworks-code__filename">domain.yaml</span>
+          </div>
+          <pre class="howitworks-code__body"><code><span class="code-kw">nodes</span>:
+  <span class="code-type">BusinessEntity</span>:
+    <span class="code-key">fields</span>:
+      name:                {'{'} <span class="code-kw">type</span>: <span class="code-val">text</span>,   <span class="code-kw">required</span>: <span class="code-val">true</span> {'}'}
+      owner:               {'{'} <span class="code-kw">type</span>: <span class="code-val">user</span>,   <span class="code-kw">required</span>: <span class="code-val">true</span> {'}'}
+      data_classification: {'{'} <span class="code-kw">type</span>: <span class="code-val">options_single</span>       {'}'}
+      system_of_record:    {'{'} <span class="code-kw">type</span>: <span class="code-val">text</span>                {'}'}
+      last_reviewed:       {'{'} <span class="code-kw">type</span>: <span class="code-val">date</span>                {'}'}
+
+  <span class="code-type">Policy</span>:
+    <span class="code-key">fields</span>:
+      title:           {'{'} <span class="code-kw">type</span>: <span class="code-val">text</span>,   <span class="code-kw">required</span>: <span class="code-val">true</span> {'}'}
+      effective_date:  {'{'} <span class="code-kw">type</span>: <span class="code-val">date</span>                {'}'}
+      scope:           {'{'} <span class="code-kw">type</span>: <span class="code-val">text</span>                {'}'}
+      status:          {'{'} <span class="code-kw">type</span>: <span class="code-val">options_single</span>       {'}'}
+
+  <span class="code-type">AccessRole</span>:
+    <span class="code-key">fields</span>:
+      role_name:   {'{'} <span class="code-kw">type</span>: <span class="code-val">text</span>,            <span class="code-kw">required</span>: <span class="code-val">true</span> {'}'}
+      permission:  {'{'} <span class="code-kw">type</span>: <span class="code-val">options_single</span>              {'}'}
+      department:  {'{'} <span class="code-kw">type</span>: <span class="code-val">text</span>                       {'}'}
+
+<span class="code-kw">edges</span>:
+  <span class="code-type">GovernedBy</span>:
+    <span class="code-key">from</span>: <span class="code-type">BusinessEntity</span>
+    <span class="code-key">to</span>:   <span class="code-type">Policy</span>
+
+  <span class="code-type">AccessibleBy</span>:
+    <span class="code-key">from</span>: <span class="code-type">BusinessEntity</span>
+    <span class="code-key">to</span>:   <span class="code-type">AccessRole</span></code></pre>
+        </div>
+      </div>
+
+      <!-- Explanation Sections -->
+      <div class="example-sections">
+        <div class="example-section">
+          <h2>
+            <span class="material-symbols-outlined" style="font-size: 1.5rem; color: var(--color-orange); vertical-align: middle;">hub</span>
+            {t(lang, 'examples.domainYaml.nodesHeading')}
+          </h2>
+          <p>{t(lang, 'examples.domainYaml.nodesDesc')}</p>
+        </div>
+
+        <div class="example-section">
+          <h2>
+            <span class="material-symbols-outlined" style="font-size: 1.5rem; color: var(--color-orange); vertical-align: middle;">share</span>
+            {t(lang, 'examples.domainYaml.edgesHeading')}
+          </h2>
+          <p>{t(lang, 'examples.domainYaml.edgesDesc')}</p>
+        </div>
+
+        <div class="example-section">
+          <h2>
+            <span class="material-symbols-outlined" style="font-size: 1.5rem; color: var(--color-orange); vertical-align: middle;">data_object</span>
+            {t(lang, 'examples.domainYaml.fieldsHeading')}
+          </h2>
+          <p>{t(lang, 'examples.domainYaml.fieldsDesc')}</p>
+        </div>
+
+        <div class="example-section">
+          <h2>
+            <span class="material-symbols-outlined" style="font-size: 1.5rem; color: var(--color-orange); vertical-align: middle;">settings_suggest</span>
+            {t(lang, 'examples.domainYaml.infrastructureHeading')}
+          </h2>
+          <p>{t(lang, 'examples.domainYaml.infrastructureDesc')}</p>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="example-cta">
+        <button type="button" class="btn btn-primary" data-contact-open>
+          {t(lang, 'examples.domainYaml.cta')}
+          <span class="material-symbols-outlined" style="font-size: 1.25rem;">arrow_forward</span>
+        </button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .example-stage-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: rgba(255, 107, 0, 0.08);
+    border: 1px solid rgba(255, 107, 0, 0.2);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 40px;
+  }
+
+  .example-stage-note p {
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .example-code-block {
+    margin-bottom: 56px;
+  }
+
+  .example-sections {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    margin-bottom: 56px;
+  }
+
+  .example-section h2 {
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .example-section p {
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+
+  .example-cta {
+    text-align: center;
+    padding: 32px 0;
+  }
+
+  @media (max-width: 768px) {
+    .example-sections {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+</style>

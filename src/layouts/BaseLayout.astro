@@ -15,6 +15,17 @@ const { title, lang, description = '' } = Astro.props;
 const rtlLangs = ['ar'];
 const dir = rtlLangs.includes(lang) ? 'rtl' : 'ltr';
 const isDev = process.env.PUBLIC_ENVTYPE === 'dev';
+
+// SEO: canonical + hreflang
+const siteUrl = 'https://domainmesh.io';
+const currentPath = Astro.url.pathname;
+const pathWithoutLang = currentPath.replace(/^\/(en|de|hu|fr|it|es|pt|pl|uk|ru|tr|ar|ja|ko|zh)/, '');
+const canonicalUrl = `${siteUrl}${currentPath}`;
+const hreflangs = [
+  { lang: 'en', href: `${siteUrl}/en${pathWithoutLang}` },
+  { lang: 'de', href: `${siteUrl}/de${pathWithoutLang}` },
+  { lang: 'hu', href: `${siteUrl}/hu${pathWithoutLang}` },
+];
 ---
 
 <!doctype html>
@@ -25,6 +36,11 @@ const isDev = process.env.PUBLIC_ENVTYPE === 'dev';
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title} | DomainMesh</title>
+    <link rel="canonical" href={canonicalUrl} />
+    {hreflangs.map((hl) => (
+      <link rel="alternate" hreflang={hl.lang} href={hl.href} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={`${siteUrl}/en${pathWithoutLang}`} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
