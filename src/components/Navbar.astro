@@ -45,7 +45,7 @@ const currentPath = Astro.url.pathname;
 
     <div class="navbar__right">
       <button data-contact-open class="navbar__contact-btn">
-        {t(lang, 'footer.contact')}
+        {t(lang, 'nav.ctaButton')}
       </button>
       <LanguageSelector lang={lang} />
       <button
@@ -69,7 +69,7 @@ const currentPath = Astro.url.pathname;
       );
     })}
     <button data-contact-open class="navbar__mobile-contact">
-      {t(lang, 'footer.contact')}
+      {t(lang, 'nav.ctaButton')}
       <span class="material-symbols-outlined" style="font-size: 1.25rem;">arrow_forward</span>
     </button>
     <div class="navbar__mobile-lang">
