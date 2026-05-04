@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/Danidani23/domainmesh-website/compare/v1.1.0...v1.2.0) (2026-05-03)
+
+
+### Features
+
+* **stage:** merge dev ([a01933b](https://github.com/Danidani23/domainmesh-website/commit/a01933b04747b2cd748d5bbd76fcf6b3a6f1afba))
+
 ## [1.1.0](https://github.com/Danidani23/domainmesh-website/compare/v1.0.0...v1.1.0) (2026-05-02)
 
 
