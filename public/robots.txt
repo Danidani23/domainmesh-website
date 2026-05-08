@@ -47,3 +47,6 @@ Noarchive: yes
 # Block all other crawlers
 User-agent: *
 Disallow: /
+
+# Sitemap
+Sitemap: https://domainmesh.io/sitemap-index.xml
