@@ -53,6 +53,16 @@ The root path `/` redirects to `/en/` (default locale). This is handled by:
 - **On Cloudflare**: The `public/_redirects` file executes an instant server-side 301 redirect at the edge.
 - **Locally**: Astro's `redirectToDefaultLocale: true` config handles this via a client-side redirect.
 
+### Crawler & Archive Blocking
+
+The site blocks all web crawlers, archiving services (Wayback Machine, Common Crawl), and AI scrapers to prevent site history from being publicly traceable. This is enforced at three layers:
+
+1. **`public/robots.txt`** — Disallows all known archiving bots (`ia_archiver`, `archive.org_bot`, `CCBot`), AI scrapers (`GPTBot`, `ClaudeBot`, `PerplexityBot`, etc.), and a wildcard `*` catch-all.
+2. **`public/_headers`** — Adds `X-Robots-Tag: noarchive, nosnippet, noimageindex` HTTP header on all responses via Cloudflare Pages.
+3. **`src/layouts/BaseLayout.astro`** — Injects `<meta name="robots" content="noarchive, nosnippet, noimageindex" />` into every page's `<head>`.
+
+> **Note:** `robots.txt` is advisory — well-behaved bots respect it, but cannot prevent all scraping. The layered approach provides the strongest coverage possible without server-side blocking.
+
 ## Development
 
 All local development tasks are managed via [Task](https://taskfile.dev/). Run `task` to see all available commands.
